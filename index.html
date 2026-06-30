@@ -8,1127 +8,324 @@
         :root {
             --bg: #0a0a1a;
             --taskbar: rgba(10, 15, 30, 0.85);
-            --taskbar-border: rgba(255, 255, 255, 0.08);
             --window-bg: rgba(15, 20, 40, 0.95);
             --window-header: rgba(20, 30, 60, 0.95);
-            --text: #d0d8f0;
             --accent: #4da8ff;
-            --accent-glow: rgba(77, 168, 255, 0.4);
             --danger: #ff5c5c;
             --success: #4dff91;
             --warning: #ffb84d;
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin:0; padding:0; box-sizing:border-box; }
         body {
-            font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+            font-family: 'Segoe UI', system-ui, sans-serif;
             background: #050510;
-            height: 100vh;
-            width: 100vw;
-            overflow: hidden;
-            user-select: none;
-            display: flex;
-            flex-direction: column;
+            height:100vh; width:100vw; overflow:hidden;
+            display:flex; flex-direction:column;
             background-image:
-                radial-gradient(ellipse at 30% 20%, rgba(20, 80, 200, 0.25) 0%, transparent 55%),
-                radial-gradient(ellipse at 70% 60%, rgba(15, 50, 150, 0.3) 0%, transparent 55%),
-                radial-gradient(ellipse at 50% 50%, rgba(10, 30, 100, 0.2) 0%, transparent 70%),
-                radial-gradient(ellipse at 80% 80%, rgba(30, 100, 255, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at 10% 90%, rgba(0, 60, 180, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at 30% 20%, rgba(20,80,200,0.25) 0%, transparent 55%),
+                radial-gradient(ellipse at 70% 60%, rgba(15,50,150,0.3) 0%, transparent 55%),
+                radial-gradient(ellipse at 50% 50%, rgba(10,30,100,0.2) 0%, transparent 70%),
+                radial-gradient(ellipse at 80% 80%, rgba(30,100,255,0.15) 0%, transparent 50%),
                 linear-gradient(180deg, #050510 0%, #080e25 30%, #0a1030 60%, #060d20 100%);
             background-attachment: fixed;
+            transition: background-image 0.5s;
         }
-
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background:
-                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.003) 2px, rgba(255,255,255,0.003) 4px),
-                repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255,255,255,0.003) 2px, rgba(255,255,255,0.003) 4px);
-            pointer-events: none;
-            z-index: 0;
+        body.virus-bg {
+            background-image: radial-gradient(ellipse at 30% 30%, rgba(255,0,0,0.3) 0%, transparent 60%),
+                              radial-gradient(ellipse at 70% 70%, rgba(200,0,0,0.25) 0%, transparent 60%),
+                              linear-gradient(180deg, #1a0000 0%, #300000 100%) !important;
         }
-
         #watermark {
-            position: fixed;
-            bottom: 50px;
-            right: 30px;
-            color: rgba(255, 255, 255, 0.05);
-            font-size: 80px;
-            font-weight: 900;
-            letter-spacing: 4px;
-            z-index: 0;
-            pointer-events: none;
-            text-transform: uppercase;
+            position:fixed; bottom:50px; right:30px;
+            color:rgba(255,255,255,0.05); font-size:80px; font-weight:900;
+            letter-spacing:4px; z-index:0; pointer-events:none;
         }
-
-        #desktop {
-            flex: 1;
-            position: relative;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            z-index: 1;
-        }
-
+        #desktop { flex:1; position:relative; padding:15px; display:flex; flex-direction:column; gap:6px; z-index:1; }
         .desktop-icon {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-            padding: 8px 6px;
-            width: 80px;
-            text-align: center;
-            color: #e0e8ff;
-            font-size: 11px;
-            gap: 4px;
-            border-radius: 8px;
-            transition: all 0.15s;
-            position: relative;
-            z-index: 1;
+            display:flex; flex-direction:column; align-items:center;
+            cursor:pointer; padding:8px 6px; width:80px; color:#e0e8ff;
+            font-size:11px; gap:4px; border-radius:8px;
         }
-        .desktop-icon:hover {
-            background: rgba(77, 168, 255, 0.12);
-            backdrop-filter: blur(8px);
-        }
-        .desktop-icon:active {
-            background: rgba(77, 168, 255, 0.2);
-        }
-        .desktop-icon .icon-img {
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
-            transition: transform 0.15s;
-        }
-        .desktop-icon:hover .icon-img {
-            transform: scale(1.08);
-        }
-        .desktop-icon .icon-label {
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
-            line-height: 1.3;
-            word-wrap: break-word;
-            max-width: 75px;
-        }
-
+        .desktop-icon:hover { background:rgba(77,168,255,0.12); }
+        .desktop-icon .icon-img { font-size:28px; }
         .window {
-            position: absolute;
-            background: var(--window-bg);
-            border-radius: 10px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.06);
-            display: flex;
-            flex-direction: column;
-            min-width: 300px;
-            min-height: 200px;
-            z-index: 10;
-            overflow: hidden;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            animation: windowOpen 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            position:absolute; background:var(--window-bg); border-radius:10px;
+            box-shadow:0 20px 60px rgba(0,0,0,0.6); display:flex; flex-direction:column;
+            min-width:300px; min-height:200px; z-index:10; overflow:hidden;
+            backdrop-filter:blur(20px);
         }
-        @keyframes windowOpen {
-            from {
-                opacity: 0;
-                transform: scale(0.92) translateY(15px);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
-        }
-        .window.focused {
-            z-index: 100;
-            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.7), 0 0 0 1.5px var(--accent-glow), 0 0 20px rgba(77, 168, 255, 0.1);
-        }
-        .window-header {
-            background: var(--window-header);
-            padding: 10px 14px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            cursor: default;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            min-height: 38px;
-        }
-        .window-title {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 12px;
-            font-weight: 500;
-            color: #c0d0f0;
-        }
-        .window-controls {
-            display: flex;
-            gap: 6px;
-        }
-        .win-btn {
-            width: 28px;
-            height: 28px;
-            border-radius: 6px;
-            border: none;
-            cursor: pointer;
-            font-size: 11px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #c0d0f0;
-            background: rgba(255, 255, 255, 0.04);
-            transition: all 0.15s;
-        }
-        .win-btn:hover {
-            background: rgba(255, 255, 255, 0.1);
-        }
-        .win-btn.close:hover {
-            background: var(--danger);
-            color: #fff;
-        }
-        .win-btn.minimize:hover {
-            background: var(--warning);
-            color: #000;
-        }
-        .win-btn.maximize:hover {
-            background: var(--success);
-            color: #000;
-        }
-
-        .window-body {
-            flex: 1;
-            padding: 14px;
-            overflow: auto;
-            font-size: 13px;
-            color: #c0d0f0;
-            line-height: 1.5;
-            display: flex;
-            flex-direction: column;
-        }
-
-        #taskbar {
-            background: var(--taskbar);
-            height: 44px;
-            display: flex;
-            align-items: center;
-            padding: 0 6px;
-            gap: 4px;
-            z-index: 200;
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border-top: 1px solid var(--taskbar-border);
-        }
-        #start-btn {
-            background: rgba(77, 168, 255, 0.15);
-            border: 1px solid rgba(77, 168, 255, 0.2);
-            color: #e0e8ff;
-            font-weight: 600;
-            font-size: 12px;
-            padding: 6px 14px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            height: 32px;
-            white-space: nowrap;
-        }
-        #start-btn:hover {
-            background: rgba(77, 168, 255, 0.25);
-            box-shadow: 0 0 15px rgba(77, 168, 255, 0.15);
-        }
-        #start-btn:active {
-            background: rgba(77, 168, 255, 0.35);
-            transform: scale(0.97);
-        }
-
-        #quick-launch {
-            display: flex;
-            gap: 2px;
-            align-items: center;
-            height: 34px;
-            padding: 0 4px;
-            border-right: 1px solid rgba(255, 255, 255, 0.08);
-            margin-right: 4px;
-        }
-        .quick-launch-icon {
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            border-radius: 6px;
-            cursor: pointer;
-            background: transparent;
-        }
-        .quick-launch-icon:hover {
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        #taskbar-tasks {
-            display: flex;
-            gap: 3px;
-            flex: 1;
-            overflow-x: auto;
-            height: 34px;
-            align-items: center;
-        }
-        .taskbar-task {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            color: #c0d0f0;
-            padding: 5px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 11px;
-            white-space: nowrap;
-            max-width: 160px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .taskbar-task:hover {
-            background: rgba(255, 255, 255, 0.08);
-        }
-        .taskbar-task.active {
-            background: rgba(77, 168, 255, 0.2);
-            border-color: rgba(77, 168, 255, 0.4);
-            color: #fff;
-            font-weight: 500;
-        }
-        .taskbar-task .task-icon {
-            font-size: 13px;
-        }
-
-        #tray {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 0 10px;
-            height: 30px;
-            font-size: 11px;
-            color: #b0c0e0;
-            white-space: nowrap;
-        }
-        #tray .tray-time {
-            font-weight: 500;
-        }
-        #tray .tray-date {
-            color: #8090b0;
-            font-size: 10px;
-        }
-
-        #start-menu {
-            position: absolute;
-            bottom: 50px;
-            left: 6px;
-            background: rgba(15, 20, 40, 0.95);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border-radius: 12px;
-            padding: 8px;
-            display: none;
-            min-width: 220px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            z-index: 300;
-        }
-        #start-menu.show {
-            display: block;
-        }
-        .start-menu-item {
-            padding: 9px 14px;
-            border-radius: 8px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 12px;
-            color: #c0d0f0;
-        }
-        .start-menu-item:hover {
-            background: rgba(77, 168, 255, 0.15);
-            color: #fff;
-        }
-        .start-menu-separator {
-            height: 1px;
-            background: rgba(255, 255, 255, 0.06);
-            margin: 4px 8px;
-        }
-        .start-menu-footer {
-            padding: 8px 14px;
-            font-size: 10px;
-            color: #6070a0;
-            text-align: center;
-            letter-spacing: 1px;
-        }
-
-        .hyra-btn {
-            background: rgba(77, 168, 255, 0.15);
-            border: 1px solid rgba(77, 168, 255, 0.25);
-            color: #d0e0ff;
-            padding: 7px 18px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 12px;
-            font-family: inherit;
-        }
-        .hyra-btn:hover {
-            background: rgba(77, 168, 255, 0.25);
-        }
-
-        .notepad-textarea {
-            width: 100%;
-            height: 100%;
-            min-height: 180px;
-            background: rgba(0, 0, 0, 0.25);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 6px;
-            color: #d0d8f0;
-            padding: 10px;
-            font-family: 'Consolas', monospace;
-            font-size: 13px;
-            resize: none;
-            outline: none;
-        }
-
-        .terminal-output {
-            background: rgba(0, 0, 0, 0.4);
-            color: #b0d0ff;
-            font-family: 'Consolas', monospace;
-            font-size: 13px;
-            padding: 10px;
-            height: calc(100% - 38px);
-            overflow-y: auto;
-            white-space: pre-wrap;
-            border-radius: 6px 6px 0 0;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-bottom: none;
-        }
-        .terminal-input-line {
-            display: flex;
-            background: rgba(0, 0, 0, 0.4);
-            padding: 6px 10px;
-            border-radius: 0 0 6px 6px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            border-top: none;
-            align-items: center;
-            cursor: text;
-        }
-        .terminal-prompt {
-            color: var(--accent);
-            font-family: 'Consolas', monospace;
-            font-size: 13px;
-            margin-right: 6px;
-            white-space: nowrap;
-        }
-        .terminal-input {
-            background: transparent;
-            border: none;
-            color: #e0e8ff;
-            font-family: 'Consolas', monospace;
-            font-size: 13px;
-            outline: none;
-            flex: 1;
-            caret-color: var(--accent);
-        }
-
-        /* Explorer styles */
-        .explorer-item {
-            display: flex;
-            align-items: center;
-            padding: 4px 8px;
-            cursor: pointer;
-            border-radius: 4px;
-            gap: 8px;
-            font-size: 12px;
-            white-space: nowrap;
-        }
-        .explorer-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-        }
-        .explorer-item .icon {
-            font-size: 18px;
-            width: 24px;
-            text-align: center;
-        }
-        .explorer-item .details {
-            display: flex;
-            flex: 1;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .explorer-toolbar {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 10px;
-            align-items: center;
-        }
-        .explorer-address {
-            flex: 1;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #c0d0f0;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-        }
-        .explorer-back {
-            cursor: pointer;
-            background: rgba(255,255,255,0.05);
-            border-radius: 4px;
-            padding: 4px 8px;
-            font-size: 14px;
-        }
+        .window.focused { z-index:100; box-shadow:0 0 0 1.5px var(--accent); }
+        .window-header { background:var(--window-header); padding:10px 14px; display:flex; align-items:center; justify-content:space-between; }
+        .window-controls button { background:rgba(255,255,255,0.1); border:none; color:#fff; padding:2px 8px; margin-left:4px; border-radius:4px; cursor:pointer; }
+        #taskbar { background:var(--taskbar); height:44px; display:flex; align-items:center; padding:0 6px; z-index:200; backdrop-filter:blur(25px); }
+        #start-btn { background:var(--accent); border:none; color:#000; padding:6px 14px; border-radius:8px; font-weight:bold; }
+        .taskbar-task { background:rgba(255,255,255,0.1); padding:5px 14px; border-radius:6px; margin:0 2px; cursor:pointer; }
+        .taskbar-task.active { background:var(--accent); }
+        #start-menu { position:absolute; bottom:50px; left:6px; background:rgba(15,20,40,0.95); border-radius:12px; padding:8px; display:none; }
+        #start-menu.show { display:block; }
+        .start-menu-item { padding:10px; cursor:pointer; color:#ccc; }
+        .hyra-btn { background:var(--accent); border:none; color:#000; padding:6px 14px; border-radius:4px; cursor:pointer; }
+        .hyra-input { background:rgba(0,0,0,0.4); border:1px solid #555; color:#fff; padding:6px 10px; width:100%; border-radius:4px; }
+        .notepad-textarea { width:100%; height:100%; background:#111; color:#0f0; border:1px solid #333; font-family:monospace; }
+        .terminal-output { background:#000; color:#0f0; font-family:monospace; padding:10px; height:calc(100% - 30px); overflow-y:auto; }
+        .search-result { padding:8px; margin:4px 0; background:rgba(255,255,255,0.05); border-radius:4px; cursor:pointer; }
+        .virus-alert { position:fixed; top:20px; right:20px; background:red; color:white; padding:15px 25px; border-radius:8px; z-index:999; display:none; }
     </style>
 </head>
 <body>
-
     <div id="watermark">HyraIO</div>
+    <div class="virus-alert" id="virusAlert">⚠️ ВИРУС ОБНАРУЖЕН! Система заражена!</div>
 
     <div id="desktop">
-        <div class="desktop-icon" data-app="my-pc" ondblclick="openApp('my-pc')">
-            <div class="icon-img">🖥️</div>
-            <div class="icon-label">Этот компьютер</div>
-        </div>
-        <div class="desktop-icon" data-app="recycle" ondblclick="openApp('recycle')">
-            <div class="icon-img">🗑️</div>
-            <div class="icon-label">Корзина</div>
-        </div>
-        <div class="desktop-icon" data-app="notepad" ondblclick="openApp('notepad')">
-            <div class="icon-img">📝</div>
-            <div class="icon-label">Блокнот</div>
-        </div>
-        <div class="desktop-icon" data-app="terminal" ondblclick="openApp('terminal')">
-            <div class="icon-img">⚡</div>
-            <div class="icon-label">Терминал</div>
-        </div>
+        <div class="desktop-icon" ondblclick="openApp('my-pc')"><div class="icon-img">🖥️</div>Мой компьютер</div>
+        <div class="desktop-icon" ondblclick="openApp('recycle')"><div class="icon-img">🗑️</div>Корзина</div>
+        <div class="desktop-icon" ondblclick="openApp('notepad')"><div class="icon-img">📝</div>Блокнот</div>
+        <div class="desktop-icon" ondblclick="openApp('terminal')"><div class="icon-img">⚡</div>Терминал</div>
+        <div class="desktop-icon" ondblclick="openApp('hyrabr')"><div class="icon-img">🌐</div>HYRABR</div>
     </div>
 
     <div id="start-menu">
-        <div class="start-menu-item" onclick="openApp('my-pc'); toggleStartMenu()"><span>🖥️</span> Этот компьютер</div>
-        <div class="start-menu-item" onclick="openApp('notepad'); toggleStartMenu()"><span>📝</span> Блокнот</div>
-        <div class="start-menu-item" onclick="openApp('terminal'); toggleStartMenu()"><span>⚡</span> Терминал</div>
-        <div class="start-menu-separator"></div>
-        <div class="start-menu-item" onclick="shutdown()"><span>⏻</span> Завершение работы</div>
-        <div class="start-menu-footer">HyraIO v1.0</div>
+        <div class="start-menu-item" onclick="openApp('my-pc');toggleStartMenu()">🖥️ Мой компьютер</div>
+        <div class="start-menu-item" onclick="openApp('hyrabr');toggleStartMenu()">🌐 HYRABR</div>
+        <div class="start-menu-item" onclick="openApp('terminal');toggleStartMenu()">⚡ Терминал</div>
+        <div class="start-menu-item" onclick="shutdown()">⏻ Завершение работы</div>
     </div>
 
     <div id="taskbar">
-        <button id="start-btn" onclick="toggleStartMenu()"><span>⊞</span> Пуск</button>
-        <div id="quick-launch">
-            <div class="quick-launch-icon" title="Этот компьютер" onclick="openApp('my-pc')">🖥️</div>
-            <div class="quick-launch-icon" title="Блокнот" onclick="openApp('notepad')">📝</div>
-            <div class="quick-launch-icon" title="Терминал" onclick="openApp('terminal')">⚡</div>
-        </div>
+        <button id="start-btn" onclick="toggleStartMenu()">⊞ Пуск</button>
         <div id="taskbar-tasks"></div>
-        <div id="tray">
-            <span id="clock">00:00</span>
-            <span id="date-display"></span>
-        </div>
+        <div id="tray">🕒 <span id="clock"></span></div>
     </div>
 
     <script>
-        // ==================== HyraIO OS ====================
-        let windows = {};
-        let windowZIndex = 10;
-        let activeWindowId = null;
-        let windowCount = 0;
-        let startMenuOpen = false;
-        let minimizedWindows = {};
-        let extraDrives = [];
+        // ========== БАЗОВЫЕ ФУНКЦИИ ОКОН ==========
+        let windows = {}, windowZIndex = 10, activeWindowId, minimizedWindows = {}, startMenuOpen = false;
+        let virusDetected = false;
+        let installedAV = null; // название установленного антивируса
 
-        // ==================== ФАЙЛОВАЯ СИСТЕМА ====================
-        function generateFile(name, size, date) {
-            return { type: 'file', name, size, date };
-        }
-
-        function createDefaultDriveStructure(letter) {
-            const root = {
-                type: 'folder',
-                name: `Локальный диск (${letter}:)`,
-                children: {
-                    'autoexec.bat': generateFile('autoexec.bat', '0 KB', '01.01.2025'),
-                    'config.sys': generateFile('config.sys', '0 KB', '01.01.2025'),
-                    'pagefile.sys': generateFile('pagefile.sys', '3.99 GB', '22.06.2025'),
-                    'hiberfil.sys': generateFile('hiberfil.sys', '1.5 GB', '22.06.2025'),
-                    'NTDETECT.COM': generateFile('NTDETECT.COM', '47 KB', '15.06.2025'),
-                    'bootmgr': generateFile('bootmgr', '326 KB', '15.06.2025'),
-                    'BOOTNXT': generateFile('BOOTNXT', '1 KB', '15.06.2025'),
-                }
-            };
-
-            // Папки, общие для всех дисков (но на C: будет больше)
-            const commonFolders = {
-                'Program Files': {
-                    type: 'folder',
-                    children: {
-                        'Common Files': { type: 'folder', children: {} },
-                        'Internet Explorer': {
-                            type: 'folder',
-                            children: {
-                                'iexplore.exe': generateFile('iexplore.exe', '1.2 MB', '10.06.2025'),
-                                'ieproxy.dll': generateFile('ieproxy.dll', '285 KB', '10.06.2025'),
-                            }
-                        },
-                        'Windows NT': { type: 'folder', children: {} },
-                    }
-                },
-                'Windows': {
-                    type: 'folder',
-                    children: {
-                        'explorer.exe': generateFile('explorer.exe', '2.8 MB', '01.06.2025'),
-                        'notepad.exe': generateFile('notepad.exe', '256 KB', '01.06.2025'),
-                        'regedit.exe': generateFile('regedit.exe', '512 KB', '01.06.2025'),
-                        'System32': {
-                            type: 'folder',
-                            children: {
-                                'ntoskrnl.exe': generateFile('ntoskrnl.exe', '4.5 MB', '15.06.2025'),
-                                'hal.dll': generateFile('hal.dll', '320 KB', '15.06.2025'),
-                                'cmd.exe': generateFile('cmd.exe', '512 KB', '15.06.2025'),
-                            }
-                        },
-                        'Fonts': { type: 'folder', children: {} },
-                        'Resources': { type: 'folder', children: {} },
-                    }
-                },
-                'hyrosys32': {
-                    type: 'folder',
-                    children: {
-                        'drivers': {
-                            type: 'folder',
-                            children: {
-                                'hyrdisk.sys': generateFile('hyrdisk.sys', '128 KB', '22.06.2025'),
-                                'hyrnet.sys': generateFile('hyrnet.sys', '96 KB', '22.06.2025'),
-                            }
-                        },
-                        'config': { type: 'folder', children: {} },
-                        'hyraapi.dll': generateFile('hyraapi.dll', '1.1 MB', '22.06.2025'),
-                        'hyrboot.dll': generateFile('hyrboot.dll', '256 KB', '22.06.2025'),
-                    }
-                },
-                'Users': {
-                    type: 'folder',
-                    children: {
-                        'Hyra': {
-                            type: 'folder',
-                            children: {
-                                'Documents': { type: 'folder', children: {} },
-                                'Downloads': { type: 'folder', children: {} },
-                                'Desktop': { type: 'folder', children: {} },
-                            }
-                        },
-                        'Public': { type: 'folder', children: {} },
-                    }
-                },
-                'Temp': { type: 'folder', children: {} },
-                'Documents and Settings': { type: 'folder', children: {} },
-                'PerfLogs': { type: 'folder', children: {} },
-                'Recovery': { type: 'folder', children: {} },
-                'inetpub': { type: 'folder', children: {} },
-                'MSOCache': { type: 'folder', children: {} },
-            };
-
-            if (letter === 'C') {
-                // Добавляем дополнительные папки/файлы для C:
-                root.children = { ...root.children, ...commonFolders };
-                // Добавим ещё специфичные
-                root.children['System Volume Information'] = { type: 'folder', children: {} };
-                root.children['$Recycle.Bin'] = { type: 'folder', children: {} };
-            } else {
-                // Для других дисков – минимальный набор
-                root.children = {
-                    'autoexec.bat': root.children['autoexec.bat'],
-                    'config.sys': root.children['config.sys'],
-                    'Documents': { type: 'folder', children: {} },
-                    'Downloads': { type: 'folder', children: {} },
-                };
-            }
-            return root;
-        }
-
-        // Глобальная файловая система (диск C)
-        let fileSystem = {
-            'C': createDefaultDriveStructure('C')
-        };
-
-        // Для других дисков создаём при добавлении
-        function getDriveStructure(letter) {
-            if (!fileSystem[letter]) {
-                fileSystem[letter] = createDefaultDriveStructure(letter);
-            }
-            return fileSystem[letter];
-        }
-
-        // Навигация по пути (например, "C:\Program Files\Common Files")
-        function resolvePath(letter, pathStr) {
-            let drive = getDriveStructure(letter);
-            if (pathStr === '' || pathStr === letter + ':\\' || pathStr === letter + ':') return drive;
-            let parts = pathStr.replace(letter + ':\\', '').split('\\').filter(p => p);
-            let current = drive;
-            for (let part of parts) {
-                if (current.children && current.children[part]) {
-                    current = current.children[part];
-                } else {
-                    return null;
-                }
-            }
-            return current;
-        }
-
-        // ===== CLOCK =====
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('clock').textContent =
-                `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
-            document.getElementById('date-display').textContent =
-                now.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short', year: 'numeric' });
-        }
-        setInterval(updateClock, 1000);
-        updateClock();
-
-        // ===== START MENU =====
-        function toggleStartMenu() {
-            startMenuOpen = !startMenuOpen;
-            document.getElementById('start-menu').classList.toggle('show', startMenuOpen);
-        }
-        document.addEventListener('click', (e) => {
-            if (!startMenuOpen) return;
-            const menu = document.getElementById('start-menu');
-            const btn = document.getElementById('start-btn');
-            if (!menu.contains(e.target) && e.target !== btn) {
-                startMenuOpen = false;
-                menu.classList.remove('show');
-            }
-        });
-
-        // ===== WINDOW MANAGEMENT =====
-        function createWindowElement(id, title, icon = '📄') {
+        function createWindow(id, title, icon='📄', width='500px', height='400px') {
             const win = document.createElement('div');
             win.className = 'window';
-            win.id = `window-${id}`;
-            win.style.left = `${50 + (windowCount * 30) % 350}px`;
-            win.style.top = `${50 + (windowCount * 30) % 250}px`;
-            win.style.width = id.startsWith('disk-') ? '700px' : '520px';
-            win.style.height = '460px';
+            win.id = 'window-' + id;
+            win.style.left = (60 + Object.keys(windows).length*30) + 'px';
+            win.style.top = (60 + Object.keys(windows).length*30) + 'px';
+            win.style.width = width; win.style.height = height;
             win.style.zIndex = ++windowZIndex;
             win.innerHTML = `
-                <div class="window-header" data-window-id="${id}">
-                    <span class="window-title"><span class="win-icon">${icon}</span> ${title}</span>
+                <div class="window-header">
+                    <span>${icon} ${title}</span>
                     <div class="window-controls">
-                        <button class="win-btn minimize" data-action="minimize">─</button>
-                        <button class="win-btn maximize" data-action="maximize">□</button>
-                        <button class="win-btn close" data-action="close">✕</button>
+                        <button onclick="minimizeWindow('${id}')">─</button>
+                        <button onclick="maximizeWindow('${id}')">□</button>
+                        <button onclick="closeWindow('${id}')">✕</button>
                     </div>
                 </div>
-                <div class="window-body" id="body-${id}"></div>
-            `;
+                <div class="window-body" id="body-${id}"></div>`;
             document.body.appendChild(win);
-            windowCount++;
-
-            win.querySelectorAll('.win-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const action = btn.dataset.action;
-                    if (action === 'close') closeWindow(id);
-                    if (action === 'minimize') minimizeWindow(id);
-                    if (action === 'maximize') maximizeWindow(id);
-                });
+            windows[id] = true;
+            focusWindow(id);
+            // перетаскивание
+            let drag = false, ox, oy;
+            win.querySelector('.window-header').addEventListener('mousedown', e => {
+                if(e.target.tagName === 'BUTTON') return;
+                drag = true; let r = win.getBoundingClientRect(); ox = e.clientX - r.left; oy = e.clientY - r.top;
             });
-            win.addEventListener('mousedown', () => focusWindow(id));
-
-            // Drag
-            const header = win.querySelector('.window-header');
-            let isDragging = false,
-                ox, oy;
-            header.addEventListener('mousedown', (e) => {
-                if (e.target.closest('.win-btn')) return;
-                isDragging = true;
-                const r = win.getBoundingClientRect();
-                ox = e.clientX - r.left;
-                oy = e.clientY - r.top;
-            });
-            document.addEventListener('mousemove', (e) => {
-                if (!isDragging) return;
-                win.style.left = `${e.clientX - ox}px`;
-                win.style.top = `${e.clientY - oy}px`;
-            });
-            document.addEventListener('mouseup', () => { isDragging = false; });
-
-            header.addEventListener('touchstart', (e) => {
-                if (e.target.closest('.win-btn')) return;
-                isDragging = true;
-                const r = win.getBoundingClientRect();
-                ox = e.touches[0].clientX - r.left;
-                oy = e.touches[0].clientY - r.top;
-            }, { passive: false });
-            document.addEventListener('touchmove', (e) => {
-                if (!isDragging) return;
-                e.preventDefault();
-                win.style.left = `${e.touches[0].clientX - ox}px`;
-                win.style.top = `${e.touches[0].clientY - oy}px`;
-            }, { passive: false });
-            document.addEventListener('touchend', () => { isDragging = false; });
-
+            document.addEventListener('mousemove', e => { if(drag) { win.style.left = (e.clientX - ox) + 'px'; win.style.top = (e.clientY - oy) + 'px'; }});
+            document.addEventListener('mouseup', ()=> drag=false);
             return win;
         }
 
         function focusWindow(id) {
-            if (activeWindowId === id) return;
+            if(activeWindowId === id) return;
             activeWindowId = id;
             document.querySelectorAll('.window').forEach(w => w.classList.remove('focused'));
-            const win = document.getElementById(`window-${id}`);
-            if (win) {
-                win.classList.add('focused');
-                win.style.zIndex = ++windowZIndex;
-            }
+            document.getElementById('window-'+id)?.classList.add('focused');
             updateTaskbar();
         }
-
-        function closeWindow(id) {
-            const win = document.getElementById(`window-${id}`);
-            if (win) {
-                win.remove();
-                windowCount--;
-                delete windows[id];
-                delete minimizedWindows[id];
-                if (activeWindowId === id) activeWindowId = null;
-                updateTaskbar();
-            }
-        }
-
+        function closeWindow(id) { document.getElementById('window-'+id)?.remove(); delete windows[id]; updateTaskbar(); }
         function minimizeWindow(id) {
-            const win = document.getElementById(`window-${id}`);
-            if (win) {
-                win.style.display = 'none';
-                minimizedWindows[id] = true;
-                if (activeWindowId === id) activeWindowId = null;
-                updateTaskbar();
-            }
+            let w = document.getElementById('window-'+id);
+            if(w) { w.style.display = 'none'; minimizedWindows[id]=true; }
+            updateTaskbar();
         }
-
         function maximizeWindow(id) {
-            const win = document.getElementById(`window-${id}`);
-            if (!win) return;
-            if (win.style.width === '100%') {
-                win.style.width = id.startsWith('disk-') ? '700px' : '520px';
-                win.style.height = '460px';
-                win.style.left = '50px';
-                win.style.top = '50px';
-                win.style.borderRadius = '10px';
-            } else {
-                win.style.width = '100%';
-                win.style.height = 'calc(100% - 44px)';
-                win.style.left = '0';
-                win.style.top = '0';
-                win.style.borderRadius = '0';
-            }
+            let w = document.getElementById('window-'+id);
+            if(w.style.width === '100%') { w.style.width='500px'; w.style.height='400px'; w.style.left='60px'; w.style.top='60px'; }
+            else { w.style.width='100%'; w.style.height='calc(100% - 44px)'; w.style.left='0'; w.style.top='0'; }
         }
-
         function restoreWindow(id) {
-            const win = document.getElementById(`window-${id}`);
-            if (win && win.style.display === 'none') {
-                win.style.display = 'flex';
-                delete minimizedWindows[id];
-                focusWindow(id);
-                updateTaskbar();
-            }
+            let w = document.getElementById('window-'+id);
+            if(w && w.style.display === 'none') { w.style.display = 'flex'; delete minimizedWindows[id]; focusWindow(id); }
         }
 
         function updateTaskbar() {
-            const container = document.getElementById('taskbar-tasks');
-            container.innerHTML = '';
-
-            const allIds = new Set();
-            document.querySelectorAll('.window').forEach(w => allIds.add(w.id.replace('window-', '')));
-            Object.keys(minimizedWindows).forEach(id => allIds.add(id));
-
-            const titles = { 'my-pc': 'Этот компьютер', 'recycle': 'Корзина', 'notepad': 'Блокнот',
-                'terminal': 'Терминал' };
-            const icons = { 'my-pc': '🖥️', 'recycle': '🗑️', 'notepad': '📝', 'terminal': '⚡' };
-
-            allIds.forEach(id => {
-                let title = titles[id] || '';
-                let icon = icons[id] || '📄';
-                if (id.startsWith('disk-')) {
-                    icon = '💾';
-                    const letter = id.split('-')[1];
-                    title = `Диск (${letter}:)`;
-                }
-
-                const isMinimized = !!minimizedWindows[id];
-                const isActive = (activeWindowId === id && !isMinimized);
-
-                const task = document.createElement('div');
-                task.className = `taskbar-task${isActive ? ' active' : ''}`;
-                task.innerHTML = `<span class="task-icon">${icon}</span> ${title.substring(0, 16)}`;
-                task.onclick = () => {
-                    if (isMinimized) restoreWindow(id);
-                    else if (isActive) minimizeWindow(id);
-                    else { restoreWindow(id);
-                        focusWindow(id); }
+            let tasks = document.getElementById('taskbar-tasks');
+            tasks.innerHTML = '';
+            let all = new Set([...document.querySelectorAll('.window')].map(w=>w.id.replace('window-','')));
+            for(let id of all) {
+                let btn = document.createElement('div');
+                btn.className = 'taskbar-task' + (activeWindowId===id?' active':'');
+                btn.innerText = id.replace('my-pc','ПК').replace('hyrabr','HYRABR').replace('notepad','Блокнот').replace('terminal','Терминал');
+                btn.onclick = ()=> {
+                    if(minimizedWindows[id]) restoreWindow(id);
+                    else if(activeWindowId===id) minimizeWindow(id);
+                    else { restoreWindow(id); focusWindow(id); }
                 };
-                container.appendChild(task);
-            });
-        }
-
-        // ===== РЕНДЕРИНГ ПРОВОДНИКА =====
-        function renderFolderContents(containerId, letter, path) {
-            const folder = resolvePath(letter, path);
-            if (!folder || folder.type !== 'folder') {
-                return '<p>Папка не найдена.</p>';
-            }
-
-            let html = `
-                <div class="explorer-toolbar">
-                    <span class="explorer-back" onclick="navigateUp('${containerId}')" title="Назад">⬆️</span>
-                    <div class="explorer-address">${path}</div>
-                </div>
-                <div style="display:flex; flex-wrap:wrap; gap:8px; align-content:flex-start;">
-            `;
-
-            const children = folder.children || {};
-            // Сначала папки, потом файлы
-            const entries = Object.entries(children).sort((a, b) => {
-                if (a[1].type === b[1].type) return a[0].localeCompare(b[0]);
-                return a[1].type === 'folder' ? -1 : 1;
-            });
-
-            for (let [name, item] of entries) {
-                if (item.type === 'folder') {
-                    html += `
-                        <div class="explorer-item" style="flex-direction:column; width:85px; padding:8px; text-align:center;"
-                             ondblclick="navigateToFolder('${containerId}', '${name}')">
-                            <div style="font-size:28px;">📁</div>
-                            <div style="font-size:11px; word-wrap:break-word;">${name}</div>
-                        </div>`;
-                } else {
-                    let icon = '📄';
-                    if (name.endsWith('.exe')) icon = '⚙️';
-                    else if (name.endsWith('.dll')) icon = '🔧';
-                    else if (name.endsWith('.sys')) icon = '💾';
-                    else if (name.endsWith('.txt') || name.endsWith('.ini') || name.endsWith('.log'))
-                        icon = '📝';
-                    else if (name.endsWith('.com') || name.endsWith('.bat')) icon = '▶️';
-
-                    html += `
-                        <div class="explorer-item" style="flex-direction:column; width:85px; padding:8px; text-align:center;">
-                            <div style="font-size:28px;">${icon}</div>
-                            <div style="font-size:10px; word-wrap:break-word;">${name}</div>
-                            <div style="font-size:9px; color:#8090b0;">${item.size}</div>
-                        </div>`;
-                }
-            }
-
-            html += `</div>`;
-            return html;
-        }
-
-        function navigateToFolder(containerId, folderName) {
-            const body = document.getElementById('body-' + containerId);
-            if (!body) return;
-            let currentPath = body.getAttribute('data-path') || '';
-            let letter = containerId.split('-')[1]; // disk-C -> C
-            let newPath = currentPath ? `${currentPath}\\${folderName}` : `${letter}:\\${folderName}`;
-            body.innerHTML = renderFolderContents(containerId, letter, newPath);
-            body.setAttribute('data-path', newPath);
-        }
-
-        function navigateUp(containerId) {
-            const body = document.getElementById('body-' + containerId);
-            if (!body) return;
-            let currentPath = body.getAttribute('data-path') || '';
-            let letter = containerId.split('-')[1];
-            if (!currentPath || currentPath === letter + ':\\') return;
-            let parts = currentPath.split('\\');
-            parts.pop();
-            let newPath = parts.join('\\');
-            if (newPath === letter + ':') newPath = letter + ':\\';
-            body.innerHTML = renderFolderContents(containerId, letter, newPath);
-            body.setAttribute('data-path', newPath);
-        }
-
-        // ===== КОНТЕНТ ПРИЛОЖЕНИЙ =====
-        function getAppContent(appId) {
-            if (appId.startsWith('disk-')) {
-                const letter = appId.split('-')[1];
-                const path = letter + ':\\';
-                // Для окна диска сохраним текущий путь в data-path
-                return `<div id="disk-content-${appId}" data-path="${path}">${renderFolderContents(appId, letter, path)}</div>`;
-            }
-            switch (appId) {
-                case 'my-pc':
-                    return renderMyPcContent();
-                case 'recycle':
-                    return `<div style="text-align:center;padding:20px;"><p style="font-size:52px;">🗑️</p><p>Корзина</p><p style="color:#6070a0;">Корзина пуста</p><button class="hyra-btn" style="margin-top:16px;">Очистить корзину</button></div>`;
-                case 'notepad':
-                    return `<textarea class="notepad-textarea" placeholder="Безымянный — Блокнот">Блокнот HyraIO\nГотов к работе…</textarea>`;
-                case 'terminal':
-                    return `
-                        <div style="display:flex; flex-direction:column; height:100%;" id="term-container-${appId}">
-                            <div class="terminal-output" id="term-output-${appId}">
-⚡ HyraIO Terminal v1.0
-─────────────────────────────
-Введите 'help' для списка команд.
-
-C:\\Users\\Hyra><span style="color:var(--accent);">_</span>
-                            </div>
-                            <div class="terminal-input-line" id="term-input-line-${appId}">
-                                <span class="terminal-prompt">C:\\Users\\Hyra></span>
-                                <input type="text" class="terminal-input" id="term-input-${appId}" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false">
-                            </div>
-                        </div>`;
-                default:
-                    return '<p>Приложение не найдено</p>';
+                tasks.appendChild(btn);
             }
         }
 
-        function renderMyPcContent() {
-            let drivesHtml = `
-                <div class="drive-icon" ondblclick="openApp('disk-C')">
-                    <div class="icon">💾</div>
-                    <div class="label">Локальный диск (C:)<br>HYRIAC</div>
-                </div>`;
-            extraDrives.forEach(letter => {
-                drivesHtml += `
-                <div class="drive-icon" ondblclick="openApp('disk-${letter}')">
-                    <div class="icon">💾</div>
-                    <div class="label">Локальный диск (${letter}:)<br>Новый том</div>
-                </div>`;
-            });
-            return `
-                <div style="padding:8px;">
-                    <p style="font-size:14px; font-weight:600; margin-bottom:12px;">Устройства и диски</p>
-                    <div style="display:flex; flex-wrap:wrap; gap:16px; margin-bottom:16px;">
-                        ${drivesHtml}
-                    </div>
-                    <button class="hyra-btn" onclick="addNewDrive()">➕ Добавить диск</button>
-                </div>`;
+        function toggleStartMenu() {
+            startMenuOpen = !startMenuOpen;
+            document.getElementById('start-menu').classList.toggle('show', startMenuOpen);
         }
 
-        function addNewDrive() {
-            const used = ['C', ...extraDrives];
-            const nextLetter = 'DEFGHIJKLMNOPQRSTUVWXYZ'.split('').find(l => !used.includes(l)) || 'Z';
-            extraDrives.push(nextLetter);
-            const pcWin = document.getElementById('window-my-pc');
-            if (pcWin && pcWin.style.display !== 'none') {
-                pcWin.querySelector('.window-body').innerHTML = renderMyPcContent();
-            }
-        }
+        // Часы
+        setInterval(()=> document.getElementById('clock').innerText = new Date().toLocaleTimeString(), 1000);
 
-        // ===== ОТКРЫТИЕ ПРИЛОЖЕНИЙ =====
+        // ========== КОНТЕНТ ПРИЛОЖЕНИЙ ==========
         function openApp(appId) {
-            if (minimizedWindows[appId]) { restoreWindow(appId); return; }
-            if (windows[appId]) {
-                const win = document.getElementById(`window-${appId}`);
-                if (win && win.style.display !== 'none') {
-                    focusWindow(appId);
-                    return;
-                }
+            if(minimizedWindows[appId]) { restoreWindow(appId); return; }
+            if(document.getElementById('window-'+appId)) { focusWindow(appId); return; }
+            let title='', icon='', w=500, h=400;
+            switch(appId) {
+                case 'my-pc': title='Мой компьютер'; icon='🖥️'; break;
+                case 'recycle': title='Корзина'; icon='🗑️'; break;
+                case 'notepad': title='Блокнот'; icon='📝'; break;
+                case 'terminal': title='Терминал'; icon='⚡'; h=350; break;
+                case 'hyrabr': title='HYRABR'; icon='🌐'; w=700; h=500; break;
             }
-
-            const titles = { 'my-pc': 'Этот компьютер', 'recycle': 'Корзина', 'notepad': 'Блокнот',
-                'terminal': 'Терминал' };
-            const icons = { 'my-pc': '🖥️', 'recycle': '🗑️', 'notepad': '📝', 'terminal': '⚡' };
-
-            let title, icon;
-            if (appId.startsWith('disk-')) {
-                const letter = appId.split('-')[1];
-                title = `Локальный диск (${letter}:)`;
-                icon = '💾';
-            } else {
-                title = titles[appId] || appId;
-                icon = icons[appId] || '📄';
+            let win = createWindow(appId, title, icon, w+'px', h+'px');
+            let body = document.getElementById('body-'+appId);
+            if(appId === 'notepad') body.innerHTML = '<textarea class="notepad-textarea">Блокнот HyraIO</textarea>';
+            else if(appId === 'terminal') {
+                body.innerHTML = `<div class="terminal-output" id="term-out">C:\\Users\\Hyra><span style="color:#0f0">_</span></div>
+                <input class="hyra-input" id="term-inp" style="font-family:monospace; background:#000; color:#0f0;" autofocus>`;
+                setupTerminal();
             }
-
-            const win = createWindowElement(appId, title, icon);
-            const body = win.querySelector('.window-body');
-            body.innerHTML = getAppContent(appId);
-            // Для дисков инициализируем data-path
-            if (appId.startsWith('disk-')) {
-                const letter = appId.split('-')[1];
-                body.setAttribute('data-path', letter + ':\\');
+            else if(appId === 'my-pc') {
+                body.innerHTML = `<div style="padding:20px"><h2>Устройства и диски</h2>
+                <div style="font-size:40px">💾 Локальный диск (C:) HYRIAC</div>
+                <button class="hyra-btn" onclick="alert('Диск D: добавлен (заглушка)')">Добавить диск</button></div>`;
             }
-            windows[appId] = true;
-            delete minimizedWindows[appId];
-            focusWindow(appId);
+            else if(appId === 'recycle') body.innerHTML = '<div style="text-align:center;padding:20px"><span style="font-size:50px">🗑️</span><p>Корзина пуста</p></div>';
+            else if(appId === 'hyrabr') buildHyrabr(body);
             updateTaskbar();
-
-            if (appId === 'terminal') setupTerminal(appId);
-            if (startMenuOpen) toggleStartMenu();
+            if(startMenuOpen) toggleStartMenu();
         }
 
-        // ===== ТЕРМИНАЛ =====
-        function setupTerminal(appId) {
-            const input = document.getElementById(`term-input-${appId}`);
-            const output = document.getElementById(`term-output-${appId}`);
-            const line = document.getElementById(`term-input-line-${appId}`);
-            if (!input || !output) return;
-            const focusInput = () => { input.focus(); };
-            line.addEventListener('click', focusInput);
-            output.addEventListener('click', focusInput);
-            const commands = {
-                help: `Доступные команды:\n  HELP  - справка\n  DIR   - список файлов\n  CLS   - очистить\n  VER   - версия\n  DATE  - дата\n  TIME  - время\n  EXIT  - закрыть`,
-                dir: ` Том в устройстве C: HYRIAC\n Серийный номер: HRA1-IO25\n\n Содержимое C:\\\n\n hyrosys32   <DIR>\n Program Files <DIR>\n Windows     <DIR>\n Users       <DIR>\n autoexec.bat 0\n config.sys   0`,
-                ver: `HyraIO OS Версия 1.0.0`,
-                date: new Date().toLocaleDateString('ru-RU', { weekday: 'long', year: 'numeric',
-                    month: 'long', day: 'numeric' }),
-                time: new Date().toLocaleTimeString('ru-RU'),
-            };
-            input.addEventListener('keydown', (e) => {
-                if (e.key !== 'Enter') return;
-                const cmd = input.value.trim().toLowerCase();
-                output.innerHTML +=
-                    `\nC:\\Users\\Hyra><span style="color:#fff;">${input.value}</span>`;
-                if (cmd === 'cls') output.innerHTML = '';
-                else if (cmd === 'exit') closeWindow(appId);
-                else if (commands[cmd]) output.innerHTML += `\n${commands[cmd]}`;
-                else if (cmd !== '') output.innerHTML +=
-                    `\n"${input.value}" не является командой.`;
-                output.innerHTML +=
-                '\n\nC:\\Users\\Hyra><span style="color:var(--accent);">_</span>';
-                output.scrollTop = output.scrollHeight;
-                input.value = '';
-                input.focus();
+        function setupTerminal() {
+            let inp = document.getElementById('term-inp'), out = document.getElementById('term-out');
+            inp.addEventListener('keydown', e => {
+                if(e.key==='Enter') {
+                    let cmd = inp.value.trim().toLowerCase();
+                    out.innerHTML += `<br>C:\\Users\\Hyra><span style="color:#fff">${inp.value}</span>`;
+                    if(cmd==='cls') out.innerHTML = '';
+                    else if(cmd==='help') out.innerHTML += '<br>help, cls, ver, date';
+                    else out.innerHTML += `<br>"${inp.value}" не найдена`;
+                    out.innerHTML += '<br>C:\\Users\\Hyra><span style="color:#0f0">_</span>';
+                    inp.value = '';
+                }
             });
-            setTimeout(() => input.focus(), 100);
+        }
+
+        // ========== HYRABR БРАУЗЕР ==========
+        function buildHyrabr(container) {
+            container.innerHTML = `
+                <div style="display:flex; margin-bottom:10px">
+                    <input class="hyra-input" id="hyrabr-search" placeholder="Поиск или введите URL..." style="flex:1">
+                    <button class="hyra-btn" onclick="doSearch()">🔍</button>
+                </div>
+                <div id="hyrabr-content" style="flex:1; overflow-y:auto;">
+                    <p style="text-align:center; color:#888;">Добро пожаловать в HYRABR</p>
+                    <p>Попробуйте: <i>погода в Москве, время в Токио, скачать Касперский, читы на Minecraft</i></p>
+                </div>`;
+            document.getElementById('hyrabr-search').addEventListener('keydown', e => { if(e.key==='Enter') doSearch(); });
+        }
+
+        function doSearch() {
+            let query = document.getElementById('hyrabr-search').value.trim().toLowerCase();
+            let content = document.getElementById('hyrabr-content');
+            if(!query) return;
+
+            // Погода
+            if(query.startsWith('погода в')) {
+                let city = query.replace('погода в','').trim();
+                content.innerHTML = `<h3>🌤 Погода в ${city}</h3><p>Температура: +${Math.floor(Math.random()*30)}°C, облачно</p>`;
+            }
+            // Время
+            else if(query.startsWith('время в')) {
+                let city = query.replace('время в','').trim();
+                content.innerHTML = `<h3>🕒 Время в ${city}</h3><p>${new Date().toLocaleTimeString()}</p>`;
+            }
+            // Антивирусы
+            else if(query.includes('kaspersky') || query.includes('касперский')) {
+                content.innerHTML = `<h3>🛡 Kaspersky Antivirus</h3><p>Лидер защиты. <button class="hyra-btn" onclick="installAV('Kaspersky')">Скачать</button></p>`;
+            }
+            else if(query.includes('dr.web') || query.includes('доктор веб')) {
+                content.innerHTML = `<h3>🛡 Dr.Web Security Space</h3><p>Надёжная защита. <button class="hyra-btn" onclick="installAV('Dr.Web')">Скачать</button></p>`;
+            }
+            else if(query.includes('avast')) {
+                content.innerHTML = `<h3>🛡 Avast Free Antivirus</h3><p>Бесплатный. <button class="hyra-btn" onclick="installAV('Avast')">Скачать</button></p>`;
+            }
+            else if(query.includes('антивирус')) {
+                content.innerHTML = `<p>Популярные антивирусы:</p>
+                <div class="search-result" onclick="doSearchKaspersky()">🔽 Kaspersky</div>
+                <div class="search-result" onclick="doSearchDrWeb()">🔽 Dr.Web</div>`;
+            }
+            // Читы -> вирус
+            else if(query.includes('читы') || query.includes('cheat')) {
+                let game = query.replace('читы на','').replace('читы','').trim() || 'любую игру';
+                content.innerHTML = `<h3>🎮 Читы для ${game}</h3>
+                <p>✅ Бесплатные читы, не обнаруживаются! <span style="color:red">(Вирусов нет)</span></p>
+                <button class="hyra-btn" style="background:red; color:white" onclick="downloadVirus('${game}')">Скачать чит-программу</button>`;
+            }
+            else {
+                content.innerHTML = `<p>Результаты по запросу "${query}":</p>
+                <div class="search-result">📄 Ссылка 1</div><div class="search-result">📄 Ссылка 2</div>`;
+            }
+        }
+
+        function doSearchKaspersky() { document.getElementById('hyrabr-search').value = 'Kaspersky'; doSearch(); }
+        function doSearchDrWeb() { document.getElementById('hyrabr-search').value = 'Dr.Web'; doSearch(); }
+
+        function installAV(name) {
+            installedAV = name;
+            virusDetected = false;
+            document.body.classList.remove('virus-bg');
+            document.getElementById('virusAlert').style.display = 'none';
+            alert(`✅ ${name} успешно установлен! Ваша система защищена.`);
+            let content = document.getElementById('hyrabr-content');
+            content.innerHTML += `<p style="color:green">Установлен ${name}. <button class="hyra-btn" onclick="scanSystem()">Сканировать систему</button></p>`;
+        }
+
+        function scanSystem() {
+            if(virusDetected) {
+                virusDetected = false;
+                document.body.classList.remove('virus-bg');
+                document.getElementById('virusAlert').style.display = 'none';
+                alert('🛡 Вирус удалён! Система очищена.');
+            } else {
+                alert('✅ Угроз не найдено.');
+            }
+        }
+
+        function downloadVirus(game) {
+            virusDetected = true;
+            document.body.classList.add('virus-bg');
+            document.getElementById('virusAlert').style.display = 'block';
+            alert(`☠️ Вирус "Trojan.${game.replace(/\s/g,'')}" активирован! Ваши данные зашифрованы.`);
+            let content = document.getElementById('hyrabr-content');
+            content.innerHTML += '<p style="color:red">⚠️ Система заражена. Установите антивирус для лечения.</p>';
         }
 
         function shutdown() {
-            document.body.innerHTML = `
-                <div style="background:#050510; display:flex; align-items:center; justify-content:center; height:100vh; flex-direction:column; color:#e0e8ff;
-                    background-image: radial-gradient(ellipse at 50% 50%, rgba(20,80,200,0.2) 0%, transparent 70%);">
-                    <div style="background:rgba(15,20,40,0.9); backdrop-filter:blur(20px); border:1px solid rgba(255,255,255,0.06); border-radius:16px; padding:40px; text-align:center;">
-                        <p style="font-size:48px;">⏻</p>
-                        <p style="font-weight:600;">Завершение работы HyraIO</p>
-                        <button class="hyra-btn" style="margin-top:20px;" onclick="location.reload()">Перезапустить</button>
-                    </div>
-                </div>`;
+            document.body.innerHTML = `<div style="display:flex; align-items:center; justify-content:center; height:100vh; background:#000; color:#fff"><h1>Завершение работы...</h1></div>`;
+            setTimeout(()=> location.reload(), 2000);
         }
 
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && activeWindowId) minimizeWindow(activeWindowId);
-        });
-
-        console.log('HyraIO OS v1.0 – полноценный проводник с файлами');
+        // Горячие клавиши
+        document.addEventListener('keydown', e => { if(e.key==='Escape' && activeWindowId) minimizeWindow(activeWindowId); });
     </script>
 </body>
 </html>
