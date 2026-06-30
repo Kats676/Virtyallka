@@ -97,8 +97,13 @@
             position: relative;
             z-index: 1;
         }
-        .desktop-icon:hover { background: rgba(77, 168, 255, 0.12); backdrop-filter: blur(8px); }
-        .desktop-icon:active { background: rgba(77, 168, 255, 0.2); }
+        .desktop-icon:hover {
+            background: rgba(77, 168, 255, 0.12);
+            backdrop-filter: blur(8px);
+        }
+        .desktop-icon:active {
+            background: rgba(77, 168, 255, 0.2);
+        }
         .desktop-icon .icon-img {
             width: 40px;
             height: 40px;
@@ -106,12 +111,14 @@
             align-items: center;
             justify-content: center;
             font-size: 28px;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
             transition: transform 0.15s;
         }
-        .desktop-icon:hover .icon-img { transform: scale(1.08); }
+        .desktop-icon:hover .icon-img {
+            transform: scale(1.08);
+        }
         .desktop-icon .icon-label {
-            text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9);
             line-height: 1.3;
             word-wrap: break-word;
             max-width: 75px;
@@ -121,7 +128,7 @@
             position: absolute;
             background: var(--window-bg);
             border-radius: 10px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.06);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.06);
             display: flex;
             flex-direction: column;
             min-width: 300px;
@@ -133,12 +140,18 @@
             animation: windowOpen 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
         @keyframes windowOpen {
-            from { opacity: 0; transform: scale(0.92) translateY(15px); }
-            to { opacity: 1; transform: scale(1) translateY(0); }
+            from {
+                opacity: 0;
+                transform: scale(0.92) translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
         }
         .window.focused {
             z-index: 100;
-            box-shadow: 0 25px 70px rgba(0,0,0,0.7), 0 0 0 1.5px var(--accent-glow), 0 0 20px rgba(77,168,255,0.1);
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.7), 0 0 0 1.5px var(--accent-glow), 0 0 20px rgba(77, 168, 255, 0.1);
         }
         .window-header {
             background: var(--window-header);
@@ -147,7 +160,7 @@
             align-items: center;
             justify-content: space-between;
             cursor: default;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             min-height: 38px;
         }
         .window-title {
@@ -158,21 +171,39 @@
             font-weight: 500;
             color: #c0d0f0;
         }
-        .window-controls { display: flex; gap: 6px; }
+        .window-controls {
+            display: flex;
+            gap: 6px;
+        }
         .win-btn {
-            width: 28px; height: 28px;
-            border-radius: 6px; border: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            border: none;
             cursor: pointer;
             font-size: 11px;
-            display: flex; align-items: center; justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: #c0d0f0;
-            background: rgba(255,255,255,0.04);
+            background: rgba(255, 255, 255, 0.04);
             transition: all 0.15s;
         }
-        .win-btn:hover { background: rgba(255,255,255,0.1); }
-        .win-btn.close:hover { background: var(--danger); color: #fff; }
-        .win-btn.minimize:hover { background: var(--warning); color: #000; }
-        .win-btn.maximize:hover { background: var(--success); color: #000; }
+        .win-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .win-btn.close:hover {
+            background: var(--danger);
+            color: #fff;
+        }
+        .win-btn.minimize:hover {
+            background: var(--warning);
+            color: #000;
+        }
+        .win-btn.maximize:hover {
+            background: var(--success);
+            color: #000;
+        }
 
         .window-body {
             flex: 1;
@@ -181,6 +212,8 @@
             font-size: 13px;
             color: #c0d0f0;
             line-height: 1.5;
+            display: flex;
+            flex-direction: column;
         }
 
         #taskbar {
@@ -196,133 +229,274 @@
             border-top: 1px solid var(--taskbar-border);
         }
         #start-btn {
-            background: rgba(77,168,255,0.15);
-            border: 1px solid rgba(77,168,255,0.2);
+            background: rgba(77, 168, 255, 0.15);
+            border: 1px solid rgba(77, 168, 255, 0.2);
             color: #e0e8ff;
             font-weight: 600;
             font-size: 12px;
             padding: 6px 14px;
             border-radius: 8px;
             cursor: pointer;
-            display: flex; align-items: center; gap: 6px;
-            height: 32px; white-space: nowrap;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            height: 32px;
+            white-space: nowrap;
         }
-        #start-btn:hover { background: rgba(77,168,255,0.25); }
+        #start-btn:hover {
+            background: rgba(77, 168, 255, 0.25);
+            box-shadow: 0 0 15px rgba(77, 168, 255, 0.15);
+        }
+        #start-btn:active {
+            background: rgba(77, 168, 255, 0.35);
+            transform: scale(0.97);
+        }
 
         #quick-launch {
-            display: flex; gap: 2px; align-items: center;
-            height: 34px; padding: 0 4px;
-            border-right: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            gap: 2px;
+            align-items: center;
+            height: 34px;
+            padding: 0 4px;
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
             margin-right: 4px;
         }
         .quick-launch-icon {
-            width: 30px; height: 30px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 18px; border-radius: 6px;
-            cursor: pointer; background: transparent;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            background: transparent;
         }
-        .quick-launch-icon:hover { background: rgba(255,255,255,0.08); }
+        .quick-launch-icon:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
 
         #taskbar-tasks {
-            display: flex; gap: 3px; flex: 1;
-            overflow-x: auto; height: 34px; align-items: center;
+            display: flex;
+            gap: 3px;
+            flex: 1;
+            overflow-x: auto;
+            height: 34px;
+            align-items: center;
         }
         .taskbar-task {
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
             color: #c0d0f0;
-            padding: 5px 14px; border-radius: 6px;
-            cursor: pointer; font-size: 11px;
-            white-space: nowrap; max-width: 160px;
-            overflow: hidden; text-overflow: ellipsis;
-            height: 30px; display: flex; align-items: center; gap: 6px;
+            padding: 5px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 11px;
+            white-space: nowrap;
+            max-width: 160px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .taskbar-task:hover {
+            background: rgba(255, 255, 255, 0.08);
         }
         .taskbar-task.active {
-            background: rgba(77,168,255,0.2);
-            border-color: rgba(77,168,255,0.4);
-            color: #fff; font-weight: 500;
+            background: rgba(77, 168, 255, 0.2);
+            border-color: rgba(77, 168, 255, 0.4);
+            color: #fff;
+            font-weight: 500;
+        }
+        .taskbar-task .task-icon {
+            font-size: 13px;
         }
 
         #tray {
-            display: flex; align-items: center; gap: 10px;
-            padding: 0 10px; height: 30px;
-            font-size: 11px; color: #b0c0e0; white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 10px;
+            height: 30px;
+            font-size: 11px;
+            color: #b0c0e0;
+            white-space: nowrap;
+        }
+        #tray .tray-time {
+            font-weight: 500;
+        }
+        #tray .tray-date {
+            color: #8090b0;
+            font-size: 10px;
         }
 
         #start-menu {
-            position: absolute; bottom: 50px; left: 6px;
-            background: rgba(15,20,40,0.95);
+            position: absolute;
+            bottom: 50px;
+            left: 6px;
+            background: rgba(15, 20, 40, 0.95);
             backdrop-filter: blur(30px);
-            border-radius: 12px; padding: 8px;
-            display: none; min-width: 220px;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.7);
-            border: 1px solid rgba(255,255,255,0.08);
+            -webkit-backdrop-filter: blur(30px);
+            border-radius: 12px;
+            padding: 8px;
+            display: none;
+            min-width: 220px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             z-index: 300;
         }
-        #start-menu.show { display: block; }
-        .start-menu-item {
-            padding: 9px 14px; border-radius: 8px;
-            cursor: pointer; display: flex; align-items: center; gap: 10px;
-            font-size: 12px; color: #c0d0f0;
+        #start-menu.show {
+            display: block;
         }
-        .start-menu-item:hover { background: rgba(77,168,255,0.15); color: #fff; }
+        .start-menu-item {
+            padding: 9px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+            color: #c0d0f0;
+        }
+        .start-menu-item:hover {
+            background: rgba(77, 168, 255, 0.15);
+            color: #fff;
+        }
+        .start-menu-separator {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.06);
+            margin: 4px 8px;
+        }
+        .start-menu-footer {
+            padding: 8px 14px;
+            font-size: 10px;
+            color: #6070a0;
+            text-align: center;
+            letter-spacing: 1px;
+        }
 
         .hyra-btn {
-            background: rgba(77,168,255,0.15);
-            border: 1px solid rgba(77,168,255,0.25);
-            color: #d0e0ff; padding: 7px 18px;
-            border-radius: 6px; cursor: pointer;
-            font-size: 12px; font-family: inherit;
+            background: rgba(77, 168, 255, 0.15);
+            border: 1px solid rgba(77, 168, 255, 0.25);
+            color: #d0e0ff;
+            padding: 7px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-family: inherit;
         }
-        .hyra-btn:hover { background: rgba(77,168,255,0.25); }
+        .hyra-btn:hover {
+            background: rgba(77, 168, 255, 0.25);
+        }
 
         .notepad-textarea {
-            width: 100%; height: 100%; min-height: 180px;
-            background: rgba(0,0,0,0.25);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 6px; color: #d0d8f0;
-            padding: 10px; font-family: 'Consolas', monospace;
-            font-size: 13px; resize: none; outline: none;
+            width: 100%;
+            height: 100%;
+            min-height: 180px;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 6px;
+            color: #d0d8f0;
+            padding: 10px;
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+            resize: none;
+            outline: none;
         }
 
         .terminal-output {
-            background: rgba(0,0,0,0.4); color: #b0d0ff;
-            font-family: 'Consolas', monospace; font-size: 13px;
-            padding: 10px; height: calc(100% - 38px);
-            overflow-y: auto; white-space: pre-wrap;
+            background: rgba(0, 0, 0, 0.4);
+            color: #b0d0ff;
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+            padding: 10px;
+            height: calc(100% - 38px);
+            overflow-y: auto;
+            white-space: pre-wrap;
             border-radius: 6px 6px 0 0;
-            border: 1px solid rgba(255,255,255,0.06); border-bottom: none;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-bottom: none;
         }
         .terminal-input-line {
-            display: flex; background: rgba(0,0,0,0.4);
-            padding: 6px 10px; border-radius: 0 0 6px 6px;
-            border: 1px solid rgba(255,255,255,0.06); border-top: none;
-            align-items: center; cursor: text;
+            display: flex;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 6px 10px;
+            border-radius: 0 0 6px 6px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-top: none;
+            align-items: center;
+            cursor: text;
         }
         .terminal-prompt {
-            color: var(--accent); font-family: 'Consolas', monospace;
-            font-size: 13px; margin-right: 6px; white-space: nowrap;
+            color: var(--accent);
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+            margin-right: 6px;
+            white-space: nowrap;
         }
         .terminal-input {
-            background: transparent; border: none;
-            color: #e0e8ff; font-family: 'Consolas', monospace;
-            font-size: 13px; outline: none; flex: 1;
+            background: transparent;
+            border: none;
+            color: #e0e8ff;
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+            outline: none;
+            flex: 1;
             caret-color: var(--accent);
         }
 
-        /* Иконки в проводнике */
-        .drive-icon, .folder-icon {
-            display: flex; flex-direction: column; align-items: center;
-            width: 90px; padding: 12px 8px; cursor: pointer;
-            border-radius: 8px; text-align: center;
-            transition: background 0.15s; color: #c0d0f0;
+        /* Explorer styles */
+        .explorer-item {
+            display: flex;
+            align-items: center;
+            padding: 4px 8px;
+            cursor: pointer;
+            border-radius: 4px;
+            gap: 8px;
+            font-size: 12px;
+            white-space: nowrap;
         }
-        .drive-icon:hover, .folder-icon:hover { background: rgba(255,255,255,0.06); }
-        .drive-icon .icon, .folder-icon .icon {
-            font-size: 36px; margin-bottom: 4px;
+        .explorer-item:hover {
+            background: rgba(255, 255, 255, 0.05);
         }
-        .drive-icon .label, .folder-icon .label {
-            font-size: 11px; word-wrap: break-word;
+        .explorer-item .icon {
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+        }
+        .explorer-item .details {
+            display: flex;
+            flex: 1;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .explorer-toolbar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+            align-items: center;
+        }
+        .explorer-address {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #c0d0f0;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        .explorer-back {
+            cursor: pointer;
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -380,17 +554,153 @@
         let windowCount = 0;
         let startMenuOpen = false;
         let minimizedWindows = {};
+        let extraDrives = [];
 
-        // Дополнительные диски (буквы)
-        let extraDrives = []; // ['D', 'E', ...]
+        // ==================== ФАЙЛОВАЯ СИСТЕМА ====================
+        function generateFile(name, size, date) {
+            return { type: 'file', name, size, date };
+        }
+
+        function createDefaultDriveStructure(letter) {
+            const root = {
+                type: 'folder',
+                name: `Локальный диск (${letter}:)`,
+                children: {
+                    'autoexec.bat': generateFile('autoexec.bat', '0 KB', '01.01.2025'),
+                    'config.sys': generateFile('config.sys', '0 KB', '01.01.2025'),
+                    'pagefile.sys': generateFile('pagefile.sys', '3.99 GB', '22.06.2025'),
+                    'hiberfil.sys': generateFile('hiberfil.sys', '1.5 GB', '22.06.2025'),
+                    'NTDETECT.COM': generateFile('NTDETECT.COM', '47 KB', '15.06.2025'),
+                    'bootmgr': generateFile('bootmgr', '326 KB', '15.06.2025'),
+                    'BOOTNXT': generateFile('BOOTNXT', '1 KB', '15.06.2025'),
+                }
+            };
+
+            // Папки, общие для всех дисков (но на C: будет больше)
+            const commonFolders = {
+                'Program Files': {
+                    type: 'folder',
+                    children: {
+                        'Common Files': { type: 'folder', children: {} },
+                        'Internet Explorer': {
+                            type: 'folder',
+                            children: {
+                                'iexplore.exe': generateFile('iexplore.exe', '1.2 MB', '10.06.2025'),
+                                'ieproxy.dll': generateFile('ieproxy.dll', '285 KB', '10.06.2025'),
+                            }
+                        },
+                        'Windows NT': { type: 'folder', children: {} },
+                    }
+                },
+                'Windows': {
+                    type: 'folder',
+                    children: {
+                        'explorer.exe': generateFile('explorer.exe', '2.8 MB', '01.06.2025'),
+                        'notepad.exe': generateFile('notepad.exe', '256 KB', '01.06.2025'),
+                        'regedit.exe': generateFile('regedit.exe', '512 KB', '01.06.2025'),
+                        'System32': {
+                            type: 'folder',
+                            children: {
+                                'ntoskrnl.exe': generateFile('ntoskrnl.exe', '4.5 MB', '15.06.2025'),
+                                'hal.dll': generateFile('hal.dll', '320 KB', '15.06.2025'),
+                                'cmd.exe': generateFile('cmd.exe', '512 KB', '15.06.2025'),
+                            }
+                        },
+                        'Fonts': { type: 'folder', children: {} },
+                        'Resources': { type: 'folder', children: {} },
+                    }
+                },
+                'hyrosys32': {
+                    type: 'folder',
+                    children: {
+                        'drivers': {
+                            type: 'folder',
+                            children: {
+                                'hyrdisk.sys': generateFile('hyrdisk.sys', '128 KB', '22.06.2025'),
+                                'hyrnet.sys': generateFile('hyrnet.sys', '96 KB', '22.06.2025'),
+                            }
+                        },
+                        'config': { type: 'folder', children: {} },
+                        'hyraapi.dll': generateFile('hyraapi.dll', '1.1 MB', '22.06.2025'),
+                        'hyrboot.dll': generateFile('hyrboot.dll', '256 KB', '22.06.2025'),
+                    }
+                },
+                'Users': {
+                    type: 'folder',
+                    children: {
+                        'Hyra': {
+                            type: 'folder',
+                            children: {
+                                'Documents': { type: 'folder', children: {} },
+                                'Downloads': { type: 'folder', children: {} },
+                                'Desktop': { type: 'folder', children: {} },
+                            }
+                        },
+                        'Public': { type: 'folder', children: {} },
+                    }
+                },
+                'Temp': { type: 'folder', children: {} },
+                'Documents and Settings': { type: 'folder', children: {} },
+                'PerfLogs': { type: 'folder', children: {} },
+                'Recovery': { type: 'folder', children: {} },
+                'inetpub': { type: 'folder', children: {} },
+                'MSOCache': { type: 'folder', children: {} },
+            };
+
+            if (letter === 'C') {
+                // Добавляем дополнительные папки/файлы для C:
+                root.children = { ...root.children, ...commonFolders };
+                // Добавим ещё специфичные
+                root.children['System Volume Information'] = { type: 'folder', children: {} };
+                root.children['$Recycle.Bin'] = { type: 'folder', children: {} };
+            } else {
+                // Для других дисков – минимальный набор
+                root.children = {
+                    'autoexec.bat': root.children['autoexec.bat'],
+                    'config.sys': root.children['config.sys'],
+                    'Documents': { type: 'folder', children: {} },
+                    'Downloads': { type: 'folder', children: {} },
+                };
+            }
+            return root;
+        }
+
+        // Глобальная файловая система (диск C)
+        let fileSystem = {
+            'C': createDefaultDriveStructure('C')
+        };
+
+        // Для других дисков создаём при добавлении
+        function getDriveStructure(letter) {
+            if (!fileSystem[letter]) {
+                fileSystem[letter] = createDefaultDriveStructure(letter);
+            }
+            return fileSystem[letter];
+        }
+
+        // Навигация по пути (например, "C:\Program Files\Common Files")
+        function resolvePath(letter, pathStr) {
+            let drive = getDriveStructure(letter);
+            if (pathStr === '' || pathStr === letter + ':\\' || pathStr === letter + ':') return drive;
+            let parts = pathStr.replace(letter + ':\\', '').split('\\').filter(p => p);
+            let current = drive;
+            for (let part of parts) {
+                if (current.children && current.children[part]) {
+                    current = current.children[part];
+                } else {
+                    return null;
+                }
+            }
+            return current;
+        }
 
         // ===== CLOCK =====
         function updateClock() {
             const now = new Date();
             document.getElementById('clock').textContent =
-                `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+                `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
             document.getElementById('date-display').textContent =
-                now.toLocaleDateString('ru-RU', { day:'numeric', month:'short', year:'numeric' });
+                now.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short', year: 'numeric' });
         }
         setInterval(updateClock, 1000);
         updateClock();
@@ -411,14 +721,14 @@
         });
 
         // ===== WINDOW MANAGEMENT =====
-        function createWindowElement(id, title, icon='📄') {
+        function createWindowElement(id, title, icon = '📄') {
             const win = document.createElement('div');
             win.className = 'window';
             win.id = `window-${id}`;
-            win.style.left = `${50 + (windowCount*30)%350}px`;
-            win.style.top  = `${50 + (windowCount*30)%250}px`;
-            win.style.width = id.startsWith('disk-') ? '600px' : '520px';
-            win.style.height = '420px';
+            win.style.left = `${50 + (windowCount * 30) % 350}px`;
+            win.style.top = `${50 + (windowCount * 30) % 250}px`;
+            win.style.width = id.startsWith('disk-') ? '700px' : '520px';
+            win.style.height = '460px';
             win.style.zIndex = ++windowZIndex;
             win.innerHTML = `
                 <div class="window-header" data-window-id="${id}">
@@ -447,7 +757,8 @@
 
             // Drag
             const header = win.querySelector('.window-header');
-            let isDragging = false, ox, oy;
+            let isDragging = false,
+                ox, oy;
             header.addEventListener('mousedown', (e) => {
                 if (e.target.closest('.win-btn')) return;
                 isDragging = true;
@@ -458,7 +769,7 @@
             document.addEventListener('mousemove', (e) => {
                 if (!isDragging) return;
                 win.style.left = `${e.clientX - ox}px`;
-                win.style.top  = `${e.clientY - oy}px`;
+                win.style.top = `${e.clientY - oy}px`;
             });
             document.addEventListener('mouseup', () => { isDragging = false; });
 
@@ -468,13 +779,13 @@
                 const r = win.getBoundingClientRect();
                 ox = e.touches[0].clientX - r.left;
                 oy = e.touches[0].clientY - r.top;
-            }, {passive: false});
+            }, { passive: false });
             document.addEventListener('touchmove', (e) => {
                 if (!isDragging) return;
                 e.preventDefault();
                 win.style.left = `${e.touches[0].clientX - ox}px`;
-                win.style.top  = `${e.touches[0].clientY - oy}px`;
-            }, {passive: false});
+                win.style.top = `${e.touches[0].clientY - oy}px`;
+            }, { passive: false });
             document.addEventListener('touchend', () => { isDragging = false; });
 
             return win;
@@ -518,8 +829,8 @@
             const win = document.getElementById(`window-${id}`);
             if (!win) return;
             if (win.style.width === '100%') {
-                win.style.width = id.startsWith('disk-') ? '600px' : '520px';
-                win.style.height = '420px';
+                win.style.width = id.startsWith('disk-') ? '700px' : '520px';
+                win.style.height = '460px';
                 win.style.left = '50px';
                 win.style.top = '50px';
                 win.style.borderRadius = '10px';
@@ -547,15 +858,12 @@
             container.innerHTML = '';
 
             const allIds = new Set();
-            document.querySelectorAll('.window').forEach(w => allIds.add(w.id.replace('window-','')));
+            document.querySelectorAll('.window').forEach(w => allIds.add(w.id.replace('window-', '')));
             Object.keys(minimizedWindows).forEach(id => allIds.add(id));
 
-            const titles = {
-                'my-pc':'Этот компьютер', 'recycle':'Корзина', 'notepad':'Блокнот', 'terminal':'Терминал'
-            };
-            const icons = {
-                'my-pc':'🖥️', 'recycle':'🗑️', 'notepad':'📝', 'terminal':'⚡'
-            };
+            const titles = { 'my-pc': 'Этот компьютер', 'recycle': 'Корзина', 'notepad': 'Блокнот',
+                'terminal': 'Терминал' };
+            const icons = { 'my-pc': '🖥️', 'recycle': '🗑️', 'notepad': '📝', 'terminal': '⚡' };
 
             allIds.forEach(id => {
                 let title = titles[id] || '';
@@ -563,7 +871,7 @@
                 if (id.startsWith('disk-')) {
                     icon = '💾';
                     const letter = id.split('-')[1];
-                    title = `Локальный диск (${letter}:)`;
+                    title = `Диск (${letter}:)`;
                 }
 
                 const isMinimized = !!minimizedWindows[id];
@@ -571,49 +879,102 @@
 
                 const task = document.createElement('div');
                 task.className = `taskbar-task${isActive ? ' active' : ''}`;
-                task.innerHTML = `<span class="task-icon">${icon}</span> ${title.substring(0,16)}`;
+                task.innerHTML = `<span class="task-icon">${icon}</span> ${title.substring(0, 16)}`;
                 task.onclick = () => {
                     if (isMinimized) restoreWindow(id);
                     else if (isActive) minimizeWindow(id);
-                    else { restoreWindow(id); focusWindow(id); }
+                    else { restoreWindow(id);
+                        focusWindow(id); }
                 };
                 container.appendChild(task);
             });
         }
 
-        // ===== ПОЛУЧЕНИЕ КОНТЕНТА ДЛЯ ОКОН =====
-        function getAppContent(appId) {
-            // Окно проводника диска
-            if (appId.startsWith('disk-')) {
-                const letter = appId.split('-')[1];
-                const folders = [
-                    { name: 'Program Files', icon: '📁' },
-                    { name: 'Windows', icon: '📁' },
-                    { name: 'Users', icon: '📁' },
-                    { name: 'hyrosys32', icon: '📁' },
-                    { name: 'Temp', icon: '📁' },
-                    { name: 'Documents and Settings', icon: '📁' },
-                    { name: 'PerfLogs', icon: '📁' },
-                    { name: 'Recovery', icon: '📁' }
-                ];
-                if (letter === 'C') {
-                    // Добавим ещё парочку типичных папок
-                    folders.push({ name: 'inetpub', icon: '📁' });
-                    folders.push({ name: 'MSOCache', icon: '📁' });
-                }
-                let html = `<div style="display:flex; flex-wrap:wrap; gap:12px; padding:8px;">`;
-                folders.forEach(f => {
-                    html += `
-                        <div class="folder-icon" ondblclick="openFolder('${f.name}')">
-                            <div class="icon">${f.icon}</div>
-                            <div class="label">${f.name}</div>
-                        </div>`;
-                });
-                html += `</div>`;
-                return html;
+        // ===== РЕНДЕРИНГ ПРОВОДНИКА =====
+        function renderFolderContents(containerId, letter, path) {
+            const folder = resolvePath(letter, path);
+            if (!folder || folder.type !== 'folder') {
+                return '<p>Папка не найдена.</p>';
             }
 
-            switch(appId) {
+            let html = `
+                <div class="explorer-toolbar">
+                    <span class="explorer-back" onclick="navigateUp('${containerId}')" title="Назад">⬆️</span>
+                    <div class="explorer-address">${path}</div>
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap:8px; align-content:flex-start;">
+            `;
+
+            const children = folder.children || {};
+            // Сначала папки, потом файлы
+            const entries = Object.entries(children).sort((a, b) => {
+                if (a[1].type === b[1].type) return a[0].localeCompare(b[0]);
+                return a[1].type === 'folder' ? -1 : 1;
+            });
+
+            for (let [name, item] of entries) {
+                if (item.type === 'folder') {
+                    html += `
+                        <div class="explorer-item" style="flex-direction:column; width:85px; padding:8px; text-align:center;"
+                             ondblclick="navigateToFolder('${containerId}', '${name}')">
+                            <div style="font-size:28px;">📁</div>
+                            <div style="font-size:11px; word-wrap:break-word;">${name}</div>
+                        </div>`;
+                } else {
+                    let icon = '📄';
+                    if (name.endsWith('.exe')) icon = '⚙️';
+                    else if (name.endsWith('.dll')) icon = '🔧';
+                    else if (name.endsWith('.sys')) icon = '💾';
+                    else if (name.endsWith('.txt') || name.endsWith('.ini') || name.endsWith('.log'))
+                        icon = '📝';
+                    else if (name.endsWith('.com') || name.endsWith('.bat')) icon = '▶️';
+
+                    html += `
+                        <div class="explorer-item" style="flex-direction:column; width:85px; padding:8px; text-align:center;">
+                            <div style="font-size:28px;">${icon}</div>
+                            <div style="font-size:10px; word-wrap:break-word;">${name}</div>
+                            <div style="font-size:9px; color:#8090b0;">${item.size}</div>
+                        </div>`;
+                }
+            }
+
+            html += `</div>`;
+            return html;
+        }
+
+        function navigateToFolder(containerId, folderName) {
+            const body = document.getElementById('body-' + containerId);
+            if (!body) return;
+            let currentPath = body.getAttribute('data-path') || '';
+            let letter = containerId.split('-')[1]; // disk-C -> C
+            let newPath = currentPath ? `${currentPath}\\${folderName}` : `${letter}:\\${folderName}`;
+            body.innerHTML = renderFolderContents(containerId, letter, newPath);
+            body.setAttribute('data-path', newPath);
+        }
+
+        function navigateUp(containerId) {
+            const body = document.getElementById('body-' + containerId);
+            if (!body) return;
+            let currentPath = body.getAttribute('data-path') || '';
+            let letter = containerId.split('-')[1];
+            if (!currentPath || currentPath === letter + ':\\') return;
+            let parts = currentPath.split('\\');
+            parts.pop();
+            let newPath = parts.join('\\');
+            if (newPath === letter + ':') newPath = letter + ':\\';
+            body.innerHTML = renderFolderContents(containerId, letter, newPath);
+            body.setAttribute('data-path', newPath);
+        }
+
+        // ===== КОНТЕНТ ПРИЛОЖЕНИЙ =====
+        function getAppContent(appId) {
+            if (appId.startsWith('disk-')) {
+                const letter = appId.split('-')[1];
+                const path = letter + ':\\';
+                // Для окна диска сохраним текущий путь в data-path
+                return `<div id="disk-content-${appId}" data-path="${path}">${renderFolderContents(appId, letter, path)}</div>`;
+            }
+            switch (appId) {
                 case 'my-pc':
                     return renderMyPcContent();
                 case 'recycle':
@@ -635,7 +996,8 @@ C:\\Users\\Hyra><span style="color:var(--accent);">_</span>
                                 <input type="text" class="terminal-input" id="term-input-${appId}" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false">
                             </div>
                         </div>`;
-                default: return '<p>Приложение не найдено</p>';
+                default:
+                    return '<p>Приложение не найдено</p>';
             }
         }
 
@@ -645,8 +1007,6 @@ C:\\Users\\Hyra><span style="color:var(--accent);">_</span>
                     <div class="icon">💾</div>
                     <div class="label">Локальный диск (C:)<br>HYRIAC</div>
                 </div>`;
-
-            // Дополнительные добавленные диски
             extraDrives.forEach(letter => {
                 drivesHtml += `
                 <div class="drive-icon" ondblclick="openApp('disk-${letter}')">
@@ -654,7 +1014,6 @@ C:\\Users\\Hyra><span style="color:var(--accent);">_</span>
                     <div class="label">Локальный диск (${letter}:)<br>Новый том</div>
                 </div>`;
             });
-
             return `
                 <div style="padding:8px;">
                     <p style="font-size:14px; font-weight:600; margin-bottom:12px;">Устройства и диски</p>
@@ -665,39 +1024,18 @@ C:\\Users\\Hyra><span style="color:var(--accent);">_</span>
                 </div>`;
         }
 
-        // ===== ДОБАВЛЕНИЕ НОВОГО ДИСКА =====
         function addNewDrive() {
-            // Берём следующую букву после C и уже добавленных
             const used = ['C', ...extraDrives];
             const nextLetter = 'DEFGHIJKLMNOPQRSTUVWXYZ'.split('').find(l => !used.includes(l)) || 'Z';
             extraDrives.push(nextLetter);
-            // Обновляем окно "Мой компьютер", если открыто
             const pcWin = document.getElementById('window-my-pc');
             if (pcWin && pcWin.style.display !== 'none') {
-                const body = pcWin.querySelector('.window-body');
-                if (body) body.innerHTML = renderMyPcContent();
+                pcWin.querySelector('.window-body').innerHTML = renderMyPcContent();
             }
-        }
-
-        // ===== ОТКРЫТИЕ ПАПКИ (заглушка) =====
-        function openFolder(name) {
-            const id = 'folder-' + name.replace(/\s/g, '-');
-            // Проверяем, нет ли уже окна
-            if (windows[id]) {
-                const win = document.getElementById(`window-${id}`);
-                if (win && win.style.display !== 'none') { focusWindow(id); return; }
-                if (minimizedWindows[id]) { restoreWindow(id); return; }
-            }
-            const win = createWindowElement(id, name, '📁');
-            win.querySelector('.window-body').innerHTML = `<div style="text-align:center; padding:30px; color:#6070a0;">Папка "${name}" пуста.</div>`;
-            windows[id] = true;
-            focusWindow(id);
-            updateTaskbar();
         }
 
         // ===== ОТКРЫТИЕ ПРИЛОЖЕНИЙ =====
         function openApp(appId) {
-            // Обработка свёрнутых
             if (minimizedWindows[appId]) { restoreWindow(appId); return; }
             if (windows[appId]) {
                 const win = document.getElementById(`window-${appId}`);
@@ -707,12 +1045,9 @@ C:\\Users\\Hyra><span style="color:var(--accent);">_</span>
                 }
             }
 
-            const titles = {
-                'my-pc':'Этот компьютер', 'recycle':'Корзина', 'notepad':'Блокнот', 'terminal':'Терминал'
-            };
-            const icons = {
-                'my-pc':'🖥️', 'recycle':'🗑️', 'notepad':'📝', 'terminal':'⚡'
-            };
+            const titles = { 'my-pc': 'Этот компьютер', 'recycle': 'Корзина', 'notepad': 'Блокнот',
+                'terminal': 'Терминал' };
+            const icons = { 'my-pc': '🖥️', 'recycle': '🗑️', 'notepad': '📝', 'terminal': '⚡' };
 
             let title, icon;
             if (appId.startsWith('disk-')) {
@@ -725,7 +1060,13 @@ C:\\Users\\Hyra><span style="color:var(--accent);">_</span>
             }
 
             const win = createWindowElement(appId, title, icon);
-            win.querySelector('.window-body').innerHTML = getAppContent(appId);
+            const body = win.querySelector('.window-body');
+            body.innerHTML = getAppContent(appId);
+            // Для дисков инициализируем data-path
+            if (appId.startsWith('disk-')) {
+                const letter = appId.split('-')[1];
+                body.setAttribute('data-path', letter + ':\\');
+            }
             windows[appId] = true;
             delete minimizedWindows[appId];
             focusWindow(appId);
@@ -737,9 +1078,9 @@ C:\\Users\\Hyra><span style="color:var(--accent);">_</span>
 
         // ===== ТЕРМИНАЛ =====
         function setupTerminal(appId) {
-            const input  = document.getElementById(`term-input-${appId}`);
+            const input = document.getElementById(`term-input-${appId}`);
             const output = document.getElementById(`term-output-${appId}`);
-            const line   = document.getElementById(`term-input-line-${appId}`);
+            const line = document.getElementById(`term-input-line-${appId}`);
             if (!input || !output) return;
             const focusInput = () => { input.focus(); };
             line.addEventListener('click', focusInput);
@@ -748,18 +1089,22 @@ C:\\Users\\Hyra><span style="color:var(--accent);">_</span>
                 help: `Доступные команды:\n  HELP  - справка\n  DIR   - список файлов\n  CLS   - очистить\n  VER   - версия\n  DATE  - дата\n  TIME  - время\n  EXIT  - закрыть`,
                 dir: ` Том в устройстве C: HYRIAC\n Серийный номер: HRA1-IO25\n\n Содержимое C:\\\n\n hyrosys32   <DIR>\n Program Files <DIR>\n Windows     <DIR>\n Users       <DIR>\n autoexec.bat 0\n config.sys   0`,
                 ver: `HyraIO OS Версия 1.0.0`,
-                date: new Date().toLocaleDateString('ru-RU', { weekday:'long', year:'numeric', month:'long', day:'numeric' }),
+                date: new Date().toLocaleDateString('ru-RU', { weekday: 'long', year: 'numeric',
+                    month: 'long', day: 'numeric' }),
                 time: new Date().toLocaleTimeString('ru-RU'),
             };
             input.addEventListener('keydown', (e) => {
                 if (e.key !== 'Enter') return;
                 const cmd = input.value.trim().toLowerCase();
-                output.innerHTML += `\nC:\\Users\\Hyra><span style="color:#fff;">${input.value}</span>`;
+                output.innerHTML +=
+                    `\nC:\\Users\\Hyra><span style="color:#fff;">${input.value}</span>`;
                 if (cmd === 'cls') output.innerHTML = '';
                 else if (cmd === 'exit') closeWindow(appId);
                 else if (commands[cmd]) output.innerHTML += `\n${commands[cmd]}`;
-                else if (cmd !== '') output.innerHTML += `\n"${input.value}" не является командой.`;
-                output.innerHTML += '\n\nC:\\Users\\Hyra><span style="color:var(--accent);">_</span>';
+                else if (cmd !== '') output.innerHTML +=
+                    `\n"${input.value}" не является командой.`;
+                output.innerHTML +=
+                '\n\nC:\\Users\\Hyra><span style="color:var(--accent);">_</span>';
                 output.scrollTop = output.scrollHeight;
                 input.value = '';
                 input.focus();
@@ -783,7 +1128,7 @@ C:\\Users\\Hyra><span style="color:var(--accent);">_</span>
             if (e.key === 'Escape' && activeWindowId) minimizeWindow(activeWindowId);
         });
 
-        console.log('HyraIO OS v1.0 — твой компьютер с HYRIAC');
+        console.log('HyraIO OS v1.0 – полноценный проводник с файлами');
     </script>
 </body>
 </html>
