@@ -4,11 +4,132 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CyberOS v1.0</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        /* --- СТИЛИ (CSS) --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            background: #0a0b10;
+            background-image: radial-gradient(rgba(26, 34, 58, 0.6) 1px, transparent 0);
+            background-size: 24px 24px;
+            font-family: 'Courier New', Courier, monospace;
+            color: #00ffcc;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* Рабочий стол */
+        #desktop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 50px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .icon {
+            width: 80px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .icon:hover {
+            transform: scale(1.1);
+        }
+
+        .icon-pic {
+            font-size: 40px;
+            margin-bottom: 5px;
+        }
+
+        .icon-text {
+            font-size: 12px;
+            text-shadow: 0 0 5px #00ffcc;
+        }
+
+        /* Окна */
+        .window {
+            position: absolute;
+            width: 420px;
+            height: 320px;
+            background: rgba(10, 11, 16, 0.95);
+            border: 2px solid #00ffcc;
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.3);
+            display: flex;
+            flex-direction: column;
+            z-index: 10;
+        }
+
+        .window-header {
+            background: #00ffcc;
+            color: #0a0b10;
+            padding: 8px 12px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            cursor: move;
+        }
+
+        .close-btn {
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .close-btn:hover {
+            color: #ff3366;
+        }
+
+        .window-content {
+            padding: 15px;
+            flex-grow: 1;
+            overflow-y: auto;
+            color: #ffffff;
+        }
+
+        /* Нижняя панель */
+        #taskbar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: rgba(15, 17, 26, 0.9);
+            border-top: 2px solid #00ffcc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 9999;
+        }
+
+        .start-btn {
+            background: #00ffcc;
+            color: #0a0b10;
+            padding: 5px 15px;
+            font-weight: bold;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        #clock {
+            color: #00ffcc;
+            text-shadow: 0 0 5px #00ffcc;
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Рабочий стол с иконками -->
+    <!-- Рабочий стол -->
     <div id="desktop">
         <div class="icon" onclick="openApp('terminal')">
             <div class="icon-pic">📟</div>
@@ -20,15 +141,94 @@
         </div>
     </div>
 
-    <!-- Контейнер для всплывающих окон -->
+    <!-- Слой для окон -->
     <div id="window-layer"></div>
 
-    <!-- Нижняя панель задач -->
+    <!-- Панель задач -->
     <div id="taskbar">
         <div class="start-btn">🪐 СУПЕР-ОС</div>
         <div id="clock">00:00</div>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        // --- ЛОГИКА (ЛОКАЛЬНОЕ ЯДРО СИСТЕМЫ) ---
+
+        // Контент приложений
+        const appsContent = {
+            terminal: {
+                title: "Системный Терминал",
+                html: `<p style="color: #00ffcc;">CyberOS Terminal v1.0</p>
+                       <p>Введите 'help' для списка команд (скоро).</p>
+                       <input type="text" style="background:none; border:none; color:#00ffcc; width:100%; outline:none; font-family:monospace; margin-top:10px;" placeholder="> введите текст..." autofocus>`
+            },
+            store: {
+                title: "Маркет приложений (AppStore)",
+                html: `<h3>Доступный софт:</h3>
+                       <div style="border: 1px solid #00ffcc; padding: 10px; margin-top: 10px; display:flex; justify-content:space-between; align-items:center;">
+                           <span>🎮 Игра: Змейка (0.5 MB)</span>
+                           <button onclick="alert('Скачивание настроим на следующем шаге!')" style="background:#00ffcc; border:none; padding:5px; cursor:pointer; font-weight:bold;">Скачать</button>
+                       </div>`
+            }
+        };
+
+        // Открытие приложений
+        function openApp(appKey) {
+            if (!appsContent[appKey]) return;
+            if (document.getElementById(`win-${appKey}`)) return; // Если уже открыто
+
+            const layer = document.getElementById('window-layer');
+            const win = document.createElement('div');
+            win.className = 'window';
+            win.id = `win-${appKey}`;
+            
+            // Легкий разброс окон, чтобы не спавнились в одной точке
+            win.style.left = (100 + Math.random() * 80) + 'px';
+            win.style.top = (100 + Math.random() * 80) + 'px';
+
+            win.innerHTML = `
+                <div class="window-header" onmousedown="dragWindow(event, '${win.id}')">
+                    <span>${appsContent[appKey].title}</span>
+                    <span class="close-btn" onclick="document.getElementById('${win.id}').remove()">[X]</span>
+                </div>
+                <div class="window-content">
+                    ${appsContent[appKey].html}
+                </div>
+            `;
+
+            layer.appendChild(win);
+        }
+
+        // Перетаскивание окон мышкой
+        function dragWindow(e, winId) {
+            const win = document.getElementById(winId);
+            let shiftX = e.clientX - win.getBoundingClientRect().left;
+            let shiftY = e.clientY - win.getBoundingClientRect().top;
+
+            function moveAt(clientX, clientY) {
+                win.style.left = clientX - shiftX + 'px';
+                win.style.top = clientY - shiftY + 'px';
+            }
+
+            function onMouseMove(event) {
+                moveAt(event.clientX, event.clientY);
+            }
+
+            document.addEventListener('mousemove', onMouseMove);
+
+            document.onmouseup = function() {
+                document.removeEventListener('mousemove', onMouseMove);
+                document.onmouseup = null;
+            };
+        }
+
+        // Часы
+        function updateClock() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            document.getElementById('clock').innerText = timeStr;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
 </body>
 </html>
