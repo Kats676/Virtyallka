@@ -3,20 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AURA OS</title>
+    <title>Windows Web</title>
     <style>
         :root {
-            --bg: #1a1a2e;
-            --panel: #0f0f1a;
-            --window-bg: #16213e;
-            --window-header: #0f3460;
-            --text: #e0e0e0;
-            --accent: #00d4ff;
-            --accent-glow: #00d4ff66;
-            --btn-hover: #1a3a5c;
-            --danger: #ff4757;
-            --success: #2ed573;
-            --warning: #ffa502;
+            --bg: #008080;
+            --taskbar: #c0c0c0;
+            --taskbar-border: #dfdfdf;
+            --window-bg: #c0c0c0;
+            --window-header: #000080;
+            --window-header-text: #ffffff;
+            --text: #000000;
+            --btn-face: #c0c0c0;
+            --btn-highlight: #ffffff;
+            --btn-shadow: #808080;
+            --btn-dark-shadow: #404040;
+            --desktop-bg: #008080;
         }
 
         * {
@@ -26,31 +27,26 @@
         }
 
         body {
-            font-family: 'Segoe UI', 'Inter', system-ui, sans-serif;
-            background: var(--bg);
-            color: var(--text);
+            font-family: 'MS Sans Serif', 'Segoe UI', 'Tahoma', sans-serif;
+            background: var(--desktop-bg);
             height: 100vh;
             width: 100vw;
             overflow: hidden;
             user-select: none;
             display: flex;
             flex-direction: column;
-            background-image:
-                radial-gradient(ellipse at 20% 50%, rgba(0, 212, 255, 0.05) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 20%, rgba(0, 212, 255, 0.03) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 80%, rgba(123, 0, 255, 0.04) 0%, transparent 50%);
+            font-size: 12px;
+            image-rendering: pixelated;
         }
 
         /* ===== DESKTOP ===== */
         #desktop {
             flex: 1;
             position: relative;
-            padding: 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(80px, 100px));
-            grid-template-rows: repeat(auto-fill, minmax(90px, 100px));
-            gap: 15px;
-            align-content: start;
+            padding: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
             z-index: 1;
         }
 
@@ -58,378 +54,253 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
             cursor: pointer;
-            padding: 10px 8px;
-            border-radius: 12px;
-            transition: all 0.2s;
+            padding: 4px;
+            width: 75px;
             text-align: center;
-            width: 90px;
-            height: 90px;
-            position: relative;
-        }
-
-        .desktop-icon:hover {
-            background: rgba(255, 255, 255, 0.06);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-        }
-        .desktop-icon:active {
-            transform: scale(0.95);
+            color: #fff;
+            font-size: 11px;
+            gap: 2px;
         }
         .desktop-icon .icon-img {
-            font-size: 38px;
-            margin-bottom: 5px;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
-            transition: transform 0.2s;
-        }
-        .desktop-icon:hover .icon-img {
-            transform: scale(1.1);
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.5));
         }
         .desktop-icon .icon-label {
-            font-size: 11px;
-            color: #ccc;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
-            word-wrap: break-word;
-            max-width: 80px;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.8);
             line-height: 1.2;
+            word-wrap: break-word;
+        }
+        .desktop-icon.selected {
+            background: rgba(0,0,128,0.6);
+            outline: 1px dotted #ffff00;
         }
 
-        /* ===== WINDOWS ===== */
+        /* ===== WINDOWS (Classic Win95 style) ===== */
         .window {
             position: absolute;
             background: var(--window-bg);
-            border-radius: 14px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.06);
+            box-shadow: inset -1px -1px 0 #404040, inset 1px 1px 0 #dfdfdf, inset -2px -2px 0 #808080, inset 2px 2px 0 #ffffff;
             display: flex;
             flex-direction: column;
-            min-width: 320px;
-            min-height: 220px;
-            animation: windowOpen 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            min-width: 280px;
+            min-height: 180px;
             z-index: 10;
-            overflow: hidden;
-        }
-
-        @keyframes windowOpen {
-            from {
-                opacity: 0;
-                transform: scale(0.9) translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: scale(1) translateY(0);
-            }
+            padding: 2px;
         }
 
         .window.focused {
             z-index: 100;
-            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.6), 0 0 0 2px var(--accent-glow);
         }
 
         .window-header {
-            background: var(--window-header);
-            padding: 10px 14px;
+            background: linear-gradient(90deg, #000080, #1084d0);
+            padding: 2px 4px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            cursor: grab;
-            border-radius: 14px 14px 0 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            user-select: none;
-        }
-        .window-header:active {
-            cursor: grabbing;
+            cursor: default;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 12px;
+            height: 22px;
         }
         .window-title {
-            font-size: 13px;
-            font-weight: 600;
-            color: #ccc;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 4px;
+            font-size: 11px;
         }
-        .window-title .dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--success);
-            box-shadow: 0 0 8px var(--success);
+        .window-title .win-icon {
+            width: 16px;
+            height: 16px;
+            font-size: 12px;
         }
         .window-controls {
             display: flex;
-            gap: 8px;
+            gap: 2px;
         }
         .win-btn {
-            width: 14px;
+            width: 16px;
             height: 14px;
-            border-radius: 50%;
-            cursor: pointer;
+            background: var(--btn-face);
             border: none;
-            transition: all 0.2s;
-            position: relative;
+            cursor: pointer;
+            box-shadow: inset -1px -1px 0 #404040, inset 1px 1px 0 #dfdfdf, inset -2px -2px 0 #808080, inset 2px 2px 0 #ffffff;
+            font-size: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-weight: bold;
+            padding: 0;
         }
-        .win-btn:hover {
-            filter: brightness(1.3);
-            transform: scale(1.15);
-        }
-        .win-btn.close {
-            background: var(--danger);
-        }
-        .win-btn.minimize {
-            background: var(--warning);
-        }
-        .win-btn.maximize {
-            background: var(--success);
+        .win-btn:active {
+            box-shadow: inset 1px 1px 0 #404040, inset -1px -1px 0 #dfdfdf, inset 2px 2px 0 #808080, inset -2px -2px 0 #ffffff;
         }
 
         .window-body {
             flex: 1;
-            padding: 16px;
+            background: #ffffff;
+            box-shadow: inset -1px -1px 0 #dfdfdf, inset 1px 1px 0 #808080, inset -2px -2px 0 #ffffff, inset 2px 2px 0 #404040;
+            margin: 0;
+            padding: 8px;
             overflow: auto;
-            font-size: 14px;
-            line-height: 1.6;
-            color: #c8d6e5;
-            position: relative;
-        }
-        .window-body::-webkit-scrollbar {
-            width: 5px;
-        }
-        .window-body::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .window-body::-webkit-scrollbar-thumb {
-            background: #333;
-            border-radius: 10px;
+            font-size: 12px;
+            color: #000;
         }
 
         /* ===== TASKBAR ===== */
         #taskbar {
-            background: var(--panel);
-            height: 48px;
+            background: var(--taskbar);
+            height: 28px;
             display: flex;
             align-items: center;
-            padding: 0 12px;
-            gap: 6px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 2px 2px;
+            gap: 3px;
+            box-shadow: inset 0 1px 0 #dfdfdf, inset 0 2px 0 #ffffff;
             z-index: 200;
-            backdrop-filter: blur(20px);
+            border-top: 1px solid #ffffff;
         }
         #start-btn {
-            background: var(--accent);
+            background: var(--btn-face);
             border: none;
             color: #000;
-            font-weight: 700;
-            font-size: 16px;
-            padding: 6px 16px;
-            border-radius: 8px;
+            font-weight: bold;
+            font-size: 11px;
+            padding: 2px 6px;
             cursor: pointer;
-            transition: all 0.2s;
-            letter-spacing: 1px;
+            box-shadow: inset -1px -1px 0 #404040, inset 1px 1px 0 #dfdfdf, inset -2px -2px 0 #808080, inset 2px 2px 0 #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            height: 22px;
             white-space: nowrap;
         }
-        #start-btn:hover {
-            box-shadow: 0 0 20px var(--accent-glow);
-            transform: scale(1.03);
-        }
         #start-btn:active {
-            transform: scale(0.97);
+            box-shadow: inset 1px 1px 0 #404040, inset -1px -1px 0 #dfdfdf, inset 2px 2px 0 #808080, inset -2px -2px 0 #ffffff;
+            padding: 3px 5px 1px 7px;
         }
         #taskbar-tasks {
             display: flex;
-            gap: 4px;
+            gap: 2px;
             flex: 1;
             overflow-x: auto;
+            height: 22px;
         }
         .taskbar-task {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            color: #ccc;
-            padding: 6px 14px;
-            border-radius: 6px;
+            background: var(--btn-face);
+            box-shadow: inset -1px -1px 0 #404040, inset 1px 1px 0 #dfdfdf, inset -2px -2px 0 #808080, inset 2px 2px 0 #ffffff;
+            color: #000;
+            padding: 2px 8px;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 11px;
             white-space: nowrap;
-            transition: all 0.2s;
-            max-width: 160px;
+            max-width: 150px;
             overflow: hidden;
             text-overflow: ellipsis;
-        }
-        .taskbar-task:hover {
-            background: rgba(255, 255, 255, 0.1);
+            height: 22px;
+            display: flex;
+            align-items: center;
         }
         .taskbar-task.active {
-            background: var(--accent);
-            color: #000;
-            border-color: var(--accent);
-            font-weight: 600;
+            box-shadow: inset 1px 1px 0 #404040, inset -1px -1px 0 #dfdfdf, inset 2px 2px 0 #808080, inset -2px -2px 0 #ffffff;
+            font-weight: bold;
+            background: #d4d0c8;
         }
-        #clock {
-            color: #ccc;
-            font-size: 13px;
-            font-weight: 500;
-            padding: 6px 12px;
+        #tray {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0 8px;
+            height: 22px;
+            box-shadow: inset -1px -1px 0 #ffffff, inset 1px 1px 0 #808080, inset -2px -2px 0 #dfdfdf, inset 2px 2px 0 #404040;
+            font-size: 11px;
             white-space: nowrap;
-            letter-spacing: 1px;
         }
 
         /* ===== START MENU ===== */
         #start-menu {
             position: absolute;
-            bottom: 60px;
-            left: 10px;
-            background: var(--panel);
-            border-radius: 16px;
-            padding: 12px;
+            bottom: 30px;
+            left: 0;
+            background: var(--btn-face);
+            box-shadow: inset -1px -1px 0 #404040, inset 1px 1px 0 #dfdfdf, inset -2px -2px 0 #808080, inset 2px 2px 0 #ffffff;
+            padding: 2px;
             display: none;
-            flex-direction: column;
-            gap: 4px;
-            min-width: 220px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            min-width: 180px;
             z-index: 300;
-            animation: slideUp 0.2s ease-out;
-        }
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(15px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
         #start-menu.show {
-            display: flex;
+            display: block;
         }
         .start-menu-item {
-            padding: 10px 16px;
-            border-radius: 8px;
+            padding: 6px 12px;
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 13px;
-            transition: all 0.15s;
-            color: #ccc;
+            gap: 8px;
+            font-size: 12px;
+            color: #000;
         }
         .start-menu-item:hover {
-            background: rgba(255, 255, 255, 0.08);
-            color: #fff;
+            background: #000080;
+            color: #ffffff;
         }
         .start-menu-item .smi-icon {
-            font-size: 20px;
+            width: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .start-menu-separator {
+            height: 1px;
+            background: #808080;
+            margin: 2px 4px;
+            box-shadow: 0 1px 0 #ffffff;
         }
 
-        /* ===== TERMINAL ===== */
-        .terminal-output {
-            font-family: 'Fira Code', 'Consolas', 'Courier New', monospace;
-            color: #00ff88;
-            white-space: pre-wrap;
-            font-size: 13px;
-            line-height: 1.7;
-            max-height: 350px;
-            overflow-y: auto;
-        }
-        .terminal-input-line {
-            display: flex;
-            align-items: center;
-            margin-top: 6px;
-        }
-        .terminal-prompt {
-            color: var(--accent);
-            font-family: 'Fira Code', 'Consolas', monospace;
-            font-size: 13px;
-            margin-right: 6px;
-            white-space: nowrap;
-        }
-        .terminal-input {
-            background: transparent;
+        /* ===== BUTTONS ===== */
+        .win95-btn {
+            background: var(--btn-face);
             border: none;
-            color: #fff;
-            font-family: 'Fira Code', 'Consolas', monospace;
-            font-size: 13px;
+            padding: 4px 16px;
+            font-size: 12px;
+            cursor: pointer;
+            box-shadow: inset -1px -1px 0 #404040, inset 1px 1px 0 #dfdfdf, inset -2px -2px 0 #808080, inset 2px 2px 0 #ffffff;
+            font-family: inherit;
+        }
+        .win95-btn:active {
+            box-shadow: inset 1px 1px 0 #404040, inset -1px -1px 0 #dfdfdf, inset 2px 2px 0 #808080, inset -2px -2px 0 #ffffff;
+        }
+
+        /* ===== INPUT ===== */
+        .win95-input {
+            background: #ffffff;
+            border: none;
+            box-shadow: inset -1px -1px 0 #dfdfdf, inset 1px 1px 0 #808080, inset -2px -2px 0 #ffffff, inset 2px 2px 0 #404040;
+            padding: 3px 6px;
+            font-size: 12px;
+            font-family: inherit;
             outline: none;
-            flex: 1;
-            caret-color: var(--accent);
         }
 
         /* ===== NOTEPAD ===== */
-        .notepad-area {
+        .notepad-textarea {
             width: 100%;
             height: 100%;
-            min-height: 200px;
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            color: #e0e0e0;
-            padding: 12px;
-            font-family: 'Consolas', 'Fira Code', monospace;
+            min-height: 180px;
+            border: none;
+            box-shadow: inset -1px -1px 0 #dfdfdf, inset 1px 1px 0 #808080, inset -2px -2px 0 #ffffff, inset 2px 2px 0 #404040;
+            padding: 4px;
+            font-family: 'Fixedsys', 'Courier New', monospace;
             font-size: 13px;
             resize: none;
             outline: none;
-            line-height: 1.6;
-        }
-        .notepad-area:focus {
-            border-color: var(--accent);
-        }
-
-        /* ===== SETTINGS ===== */
-        .settings-group {
-            margin-bottom: 16px;
-        }
-        .settings-group label {
-            display: block;
-            font-size: 12px;
-            color: #999;
-            margin-bottom: 4px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .settings-group input[type="range"] {
-            width: 100%;
-            accent-color: var(--accent);
-        }
-        .settings-group select,
-        .settings-group input[type="text"] {
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: #fff;
-            padding: 8px 12px;
-            border-radius: 6px;
-            width: 100%;
-            font-size: 13px;
-            outline: none;
-        }
-        .settings-group select:focus,
-        .settings-group input[type="text"]:focus {
-            border-color: var(--accent);
-        }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 600px) {
-            .window {
-                min-width: 260px;
-                min-height: 180px;
-            }
-            #desktop {
-                grid-template-columns: repeat(auto-fill, minmax(70px, 80px));
-                gap: 8px;
-                padding: 10px;
-            }
-            .desktop-icon {
-                width: 70px;
-                height: 70px;
-                padding: 6px;
-            }
-            .desktop-icon .icon-img {
-                font-size: 30px;
-            }
-            .desktop-icon .icon-label {
-                font-size: 10px;
-            }
         }
     </style>
 </head>
@@ -437,73 +308,46 @@
 
     <!-- Desktop -->
     <div id="desktop">
-        <!-- My PC -->
         <div class="desktop-icon" data-app="my-pc" ondblclick="openApp('my-pc')">
-            <div class="icon-img">💻</div>
+            <div class="icon-img">🖥️</div>
             <div class="icon-label">Мой компьютер</div>
         </div>
-        <!-- Terminal -->
-        <div class="desktop-icon" data-app="terminal" ondblclick="openApp('terminal')">
-            <div class="icon-img">⚡</div>
-            <div class="icon-label">Терминал</div>
-        </div>
-        <!-- Notepad -->
-        <div class="desktop-icon" data-app="notepad" ondblclick="openApp('notepad')">
-            <div class="icon-img">📝</div>
-            <div class="icon-label">Блокнот</div>
-        </div>
-        <!-- Browser -->
-        <div class="desktop-icon" data-app="browser" ondblclick="openApp('browser')">
-            <div class="icon-img">🌐</div>
-            <div class="icon-label">Браузер</div>
-        </div>
-        <!-- Settings -->
-        <div class="desktop-icon" data-app="settings" ondblclick="openApp('settings')">
-            <div class="icon-img">⚙️</div>
-            <div class="icon-label">Настройки</div>
-        </div>
-        <!-- Games -->
-        <div class="desktop-icon" data-app="games" ondblclick="openApp('games')">
-            <div class="icon-img">🎮</div>
-            <div class="icon-label">Игры</div>
+        <div class="desktop-icon" data-app="recycle" ondblclick="openApp('recycle')">
+            <div class="icon-img">🗑️</div>
+            <div class="icon-label">Корзина</div>
         </div>
     </div>
 
     <!-- Start Menu -->
     <div id="start-menu">
         <div class="start-menu-item" onclick="openApp('my-pc'); toggleStartMenu()">
-            <span class="smi-icon">💻</span> Мой компьютер
-        </div>
-        <div class="start-menu-item" onclick="openApp('terminal'); toggleStartMenu()">
-            <span class="smi-icon">⚡</span> Терминал
+            <span class="smi-icon">🖥️</span> Мой компьютер
         </div>
         <div class="start-menu-item" onclick="openApp('notepad'); toggleStartMenu()">
             <span class="smi-icon">📝</span> Блокнот
         </div>
-        <div class="start-menu-item" onclick="openApp('browser'); toggleStartMenu()">
-            <span class="smi-icon">🌐</span> Браузер
+        <div class="start-menu-item" onclick="openApp('terminal'); toggleStartMenu()">
+            <span class="smi-icon">>_</span> Командная строка
         </div>
-        <div class="start-menu-item" onclick="openApp('settings'); toggleStartMenu()">
-            <span class="smi-icon">⚙️</span> Настройки
-        </div>
-        <div class="start-menu-item" onclick="openApp('games'); toggleStartMenu()">
-            <span class="smi-icon">🎮</span> Игры
-        </div>
-        <hr style="border-color: rgba(255,255,255,0.08); margin: 4px 0;">
+        <div class="start-menu-separator"></div>
         <div class="start-menu-item" onclick="shutdown()">
-            <span class="smi-icon">⏻</span> Выключить
+            <span class="smi-icon">⏻</span> Завершение работы...
         </div>
     </div>
 
     <!-- Taskbar -->
     <div id="taskbar">
-        <button id="start-btn" onclick="toggleStartMenu()">AURA</button>
+        <button id="start-btn" onclick="toggleStartMenu()">
+            <span style="font-size:14px;">⊞</span> Пуск
+        </button>
         <div id="taskbar-tasks"></div>
-        <div id="clock"></div>
+        <div id="tray">
+            <span id="clock">00:00</span>
+        </div>
     </div>
 
     <script>
-        // ==================== AURA OS ENGINE ====================
+        // ==================== WINDOWS WEB OS ====================
 
         let windows = {};
         let windowZIndex = 10;
@@ -511,39 +355,12 @@
         let windowCount = 0;
         let startMenuOpen = false;
 
-        // Звуковые эффекты (через Web Audio API)
-        const audioCtx = new(window.AudioContext || window.webkitAudioContext)();
-
-        function playBeep(freq, type = 'sine', duration = 0.1) {
-            try {
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = type;
-                osc.frequency.value = freq;
-                gain.gain.value = 0.08;
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start();
-                osc.stop(audioCtx.currentTime + duration);
-            } catch (e) { /* ignore */ }
-        }
-
-        function playOpenSound() { playBeep(800, 'sine', 0.08);
-            setTimeout(() => playBeep(1200, 'sine', 0.06), 60); }
-
-        function playCloseSound() { playBeep(400, 'sine', 0.06);
-            setTimeout(() => playBeep(300, 'sine', 0.08), 50); }
-
-        function playErrorSound() { playBeep(150, 'square', 0.2); }
-
         // ===== CLOCK =====
         function updateClock() {
             const now = new Date();
             const h = String(now.getHours()).padStart(2, '0');
             const m = String(now.getMinutes()).padStart(2, '0');
-            const s = String(now.getSeconds()).padStart(2, '0');
-            document.getElementById('clock').textContent = `${h}:${m}:${s}`;
+            document.getElementById('clock').textContent = `${h}:${m}`;
         }
         setInterval(updateClock, 1000);
         updateClock();
@@ -554,13 +371,11 @@
             const menu = document.getElementById('start-menu');
             if (startMenuOpen) {
                 menu.classList.add('show');
-                playBeep(600, 'sine', 0.05);
             } else {
                 menu.classList.remove('show');
             }
         }
 
-        // Close start menu when clicking outside
         document.addEventListener('click', function(e) {
             const menu = document.getElementById('start-menu');
             const startBtn = document.getElementById('start-btn');
@@ -575,18 +390,18 @@
             const win = document.createElement('div');
             win.className = 'window';
             win.id = `window-${id}`;
-            win.style.left = `${60 + (windowCount * 30) % 400}px`;
-            win.style.top = `${60 + (windowCount * 30) % 300}px`;
-            win.style.width = '520px';
-            win.style.height = '400px';
+            win.style.left = `${40 + (windowCount * 25) % 300}px`;
+            win.style.top = `${40 + (windowCount * 25) % 200}px`;
+            win.style.width = '500px';
+            win.style.height = '380px';
             win.style.zIndex = ++windowZIndex;
             win.innerHTML = `
             <div class="window-header" data-window-id="${id}">
-              <span class="window-title"><span class="dot"></span> ${icon} ${title}</span>
+              <span class="window-title"><span class="win-icon">${icon}</span> ${title}</span>
               <div class="window-controls">
-                <button class="win-btn minimize" title="Свернуть" data-action="minimize"></button>
-                <button class="win-btn maximize" title="Развернуть" data-action="maximize"></button>
-                <button class="win-btn close" title="Закрыть" data-action="close"></button>
+                <button class="win-btn" data-action="minimize" title="Свернуть">─</button>
+                <button class="win-btn" data-action="maximize" title="Развернуть">□</button>
+                <button class="win-btn" data-action="close" title="Закрыть">✕</button>
               </div>
             </div>
             <div class="window-body" id="body-${id}"></div>
@@ -594,7 +409,6 @@
             document.body.appendChild(win);
             windowCount++;
 
-            // Event listeners for window controls
             win.querySelectorAll('.win-btn').forEach(btn => {
                 btn.addEventListener('click', function(e) {
                     e.stopPropagation();
@@ -605,7 +419,6 @@
                 });
             });
 
-            // Focus on click
             win.addEventListener('mousedown', function() {
                 focusWindow(id);
             });
@@ -620,8 +433,6 @@
                 const rect = win.getBoundingClientRect();
                 offsetX = e.clientX - rect.left;
                 offsetY = e.clientY - rect.top;
-                win.style.transition = 'none';
-                document.body.style.cursor = 'grabbing';
             });
             document.addEventListener('mousemove', function(e) {
                 if (!isDragging) return;
@@ -629,21 +440,16 @@
                 win.style.top = `${e.clientY - offsetY}px`;
             });
             document.addEventListener('mouseup', function() {
-                if (isDragging) {
-                    isDragging = false;
-                    win.style.transition = '';
-                    document.body.style.cursor = '';
-                }
+                isDragging = false;
             });
 
-            // Touch support for dragging
+            // Touch
             header.addEventListener('touchstart', function(e) {
                 if (e.target.closest('.win-btn')) return;
                 isDragging = true;
                 const rect = win.getBoundingClientRect();
                 offsetX = e.touches[0].clientX - rect.left;
                 offsetY = e.touches[0].clientY - rect.top;
-                win.style.transition = 'none';
             }, { passive: false });
             document.addEventListener('touchmove', function(e) {
                 if (!isDragging) return;
@@ -652,10 +458,7 @@
                 win.style.top = `${e.touches[0].clientY - offsetY}px`;
             }, { passive: false });
             document.addEventListener('touchend', function() {
-                if (isDragging) {
-                    isDragging = false;
-                    win.style.transition = '';
-                }
+                isDragging = false;
             });
 
             return win;
@@ -676,34 +479,22 @@
         function closeWindow(id) {
             const win = document.getElementById(`window-${id}`);
             if (win) {
-                win.style.opacity = '0';
-                win.style.transform = 'scale(0.95)';
-                win.style.transition = 'all 0.15s ease-in';
-                playCloseSound();
-                setTimeout(() => {
-                    win.remove();
-                    windowCount--;
-                    delete windows[id];
-                    if (activeWindowId === id) activeWindowId = null;
-                    updateTaskbar();
-                }, 150);
+                win.remove();
+                windowCount--;
+                delete windows[id];
+                if (activeWindowId === id) activeWindowId = null;
+                updateTaskbar();
             }
         }
 
         function minimizeWindow(id) {
             const win = document.getElementById(`window-${id}`);
             if (win) {
-                win.style.opacity = '0';
-                win.style.transform = 'scale(0.9) translateY(30px)';
-                win.style.transition = 'all 0.2s ease-in';
-                playBeep(500, 'sine', 0.04);
-                setTimeout(() => {
-                    win.style.display = 'none';
-                    if (activeWindowId === id) {
-                        activeWindowId = null;
-                        updateTaskbar();
-                    }
-                }, 200);
+                win.style.display = 'none';
+                if (activeWindowId === id) {
+                    activeWindowId = null;
+                    updateTaskbar();
+                }
             }
         }
 
@@ -711,19 +502,16 @@
             const win = document.getElementById(`window-${id}`);
             if (win) {
                 if (win.style.width === '100%') {
-                    win.style.width = '520px';
-                    win.style.height = '400px';
-                    win.style.left = '60px';
-                    win.style.top = '60px';
-                    win.style.borderRadius = '14px';
+                    win.style.width = '500px';
+                    win.style.height = '380px';
+                    win.style.left = '40px';
+                    win.style.top = '40px';
                 } else {
                     win.style.width = '100%';
-                    win.style.height = 'calc(100% - 48px)';
+                    win.style.height = 'calc(100% - 28px)';
                     win.style.left = '0';
                     win.style.top = '0';
-                    win.style.borderRadius = '0';
                 }
-                playBeep(700, 'sine', 0.05);
             }
         }
 
@@ -731,11 +519,7 @@
             const win = document.getElementById(`window-${id}`);
             if (win && win.style.display === 'none') {
                 win.style.display = 'flex';
-                win.style.opacity = '1';
-                win.style.transform = 'scale(1) translateY(0)';
-                win.style.transition = 'all 0.2s ease-out';
                 focusWindow(id);
-                playBeep(900, 'sine', 0.05);
             }
         }
 
@@ -748,8 +532,9 @@
                 const title = titleEl ? titleEl.textContent.trim() : id;
                 const task = document.createElement('div');
                 task.className = 'taskbar-task';
-                if (activeWindowId === id) task.classList.add('active');
-                task.textContent = title.substring(0, 20);
+                if (activeWindowId === id && win.style.display !== 'none') task.classList.add(
+                    'active');
+                task.textContent = title.substring(0, 18);
                 task.onclick = function() {
                     if (win.style.display === 'none') {
                         restoreWindow(id);
@@ -769,94 +554,40 @@
             switch (appId) {
                 case 'my-pc':
                     return `
-                <div style="text-align:center; padding-top:20px;">
-                  <p style="font-size:40px;">💻</p>
-                  <h3 style="margin:10px 0; color:var(--accent);">AURA OS</h3>
-                  <p style="color:#999;">Версия 1.0.0 (Web Edition)</p>
-                  <p style="color:#999;">Ядро: AuraKernel v2.4</p>
-                  <hr style="border-color:rgba(255,255,255,0.1); margin:16px 0;">
-                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; text-align:left; font-size:12px; color:#aaa;">
-                    <div>💾 Память: <b style="color:#fff;">${Math.round(Math.random()*8+4)} GB / 16 GB</b></div>
-                    <div>🖥️ CPU: <b style="color:#fff;">AuraCore @ 3.2GHz</b></div>
-                    <div>🌐 Сеть: <b style="color:var(--success);">Подключено</b></div>
-                    <div>📡 Ping: <b style="color:#fff;">${Math.round(Math.random()*30+5)} ms</b></div>
-                  </div>
+                <div style="padding:10px;">
+                  <p style="font-size:32px; text-align:center;">🖥️</p>
+                  <p style="text-align:center; font-weight:bold;">Мой компьютер</p>
+                  <hr style="border:1px solid #808080; margin:8px 0;">
+                  <table style="width:100%; font-size:11px;">
+                    <tr><td>💾 Локальный диск (C:)</td><td align="right">${Math.round(Math.random()*40+20)}.${Math.round(Math.random()*9)} ГБ свободно из 64 ГБ</td></tr>
+                    <tr><td>💿 CD-ROM (D:)</td><td align="right">Нет диска</td></tr>
+                    <tr><td>🖨️ Принтеры</td><td align="right">1 устройство</td></tr>
+                    <tr><td>🔧 Панель управления</td><td align="right"></td></tr>
+                  </table>
                 </div>`;
-                case 'terminal':
+                case 'recycle':
                     return `
-                <div class="terminal-output" id="term-output-${appId}">
-<span style="color:var(--accent);">AURA OS Terminal v1.0</span>
-<span style="color:#999;">Введите 'help' для списка команд.</span>
-─────────────────────────────────────
-</div>
-                <div class="terminal-input-line">
-                  <span class="terminal-prompt">aura@os:~$</span>
-                  <input type="text" class="terminal-input" id="term-input-${appId}" autofocus>
+                <div style="padding:10px; text-align:center;">
+                  <p style="font-size:48px;">🗑️</p>
+                  <p style="font-weight:bold;">Корзина</p>
+                  <p style="color:#666; font-size:11px;">Корзина пуста</p>
+                  <button class="win95-btn" style="margin-top:12px;">Очистить корзину</button>
                 </div>`;
                 case 'notepad':
                     return `
-                <textarea class="notepad-area" placeholder="Начните писать здесь..." id="notepad-text-${appId}">Добро пожаловать в Блокнот AURA OS!
-
-Это ваш виртуальный блокнот. Вы можете писать здесь всё, что угодно.</textarea>`;
-                case 'browser':
+                <textarea class="notepad-textarea" placeholder="Безымянный — Блокнот">Блокнот Windows Web Edition
+        Готов к работе...</textarea>`;
+                case 'terminal':
                     return `
-                <div style="display:flex; gap:8px; margin-bottom:12px;">
-                  <input type="text" id="browser-url-${appId}" value="https://aurora-os.dev" 
-                    style="flex:1; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.15); color:#fff; padding:8px 12px; border-radius:6px; font-size:13px; outline:none;">
-                  <button onclick="browseUrl('${appId}')" style="background:var(--accent); color:#000; border:none; padding:8px 16px; border-radius:6px; cursor:pointer; font-weight:600;">🔍</button>
-                </div>
-                <div id="browser-content-${appId}" style="background:rgba(0,0,0,0.2); border-radius:8px; padding:16px; min-height:250px; color:#ccc; text-align:center;">
-                  <p style="font-size:48px;">🌐</p>
-                  <p>AURA Browser v1.0</p>
-                  <p style="color:#999;font-size:12px;">Введите URL и нажмите поиск</p>
-                </div>`;
-                case 'settings':
-                    return `
-                <div class="settings-group">
-                  <label>Обои рабочего стола</label>
-                  <select onchange="changeWallpaper(this.value)">
-                    <option value="default">🌀 AURA Default</option>
-                    <option value="dark">🌑 Тёмная материя</option>
-                    <option value="ocean">🌊 Океан</option>
-                    <option value="sunset">🌅 Закат</option>
-                  </select>
-                </div>
-                <div class="settings-group">
-                  <label>Прозрачность окон</label>
-                  <input type="range" min="50" max="100" value="95" oninput="changeOpacity(this.value)">
-                </div>
-                <div class="settings-group">
-                  <label>Имя пользователя</label>
-                  <input type="text" value="AURA User" id="username-input">
-                </div>
-                <div class="settings-group">
-                  <label>Тема</label>
-                  <select onchange="changeTheme(this.value)">
-                    <option value="aura">💜 AURA (По умолчанию)</option>
-                    <option value="green">💚 Matrix</option>
-                    <option value="orange">🧡 Solar</option>
-                  </select>
-                </div>
-                <button onclick="playBeep(1000,'sine',0.1); alert('Настройки сохранены! (виртуально) 😉')" 
-                  style="background:var(--accent); color:#000; border:none; padding:10px 20px; border-radius:8px; cursor:pointer; font-weight:600; margin-top:8px;">
-                  💾 Сохранить
-                </button>`;
-                case 'games':
-                    return `
-                <div style="text-align:center;">
-                  <p style="font-size:48px;">🎮</p>
-                  <h3>Мини-игры</h3>
-                  <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:16px;">
-                    <button onclick="playGuessGame('${appId}')" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:#fff; padding:20px; border-radius:12px; cursor:pointer; transition:all 0.2s;"
-                      onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">
-                      🎯<br><b>Угадай число</b>
-                    </button>
-                    <button onclick="playRPS('${appId}')" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:#fff; padding:20px; border-radius:12px; cursor:pointer; transition:all 0.2s;"
-                      onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'">
-                      ✂️<br><b>Камень-ножницы</b>
-                    </button>
-                  </div>
-                  <div id="game-area-${appId}" style="margin-top:20px;"></div>
+                <div style="background:#000; color:#c0c0c0; font-family:'Courier New',monospace; font-size:13px; padding:8px; height:100%; overflow-y:auto;" id="term-output-${appId}">
+        Microsoft(R) Windows Web
+        (C) Корпорация Майкрософт, 2025. Все права защищены.
+        
+        C:\\Users\\User><span style="color:#fff;">_</span>
+        </div>
+                <div style="display:flex; background:#000; padding:4px 8px;">
+                  <span style="color:#c0c0c0; font-family:'Courier New',monospace; font-size:13px;">C:\\Users\\User></span>
+                  <input type="text" class="win95-input" id="term-input-${appId}" style="flex:1; background:#000; color:#c0c0c0; border:none; box-shadow:none; font-family:'Courier New',monospace; font-size:13px; margin-left:4px;" autofocus>
                 </div>`;
                 default:
                     return '<p>Приложение не найдено.</p>';
@@ -865,7 +596,6 @@
 
         // ===== OPEN APP =====
         function openApp(appId) {
-            // If window exists and is hidden, restore it
             if (windows[appId]) {
                 const win = document.getElementById(`window-${appId}`);
                 if (win && win.style.display === 'none') {
@@ -884,19 +614,15 @@
 
             const titles = {
                 'my-pc': 'Мой компьютер',
-                'terminal': 'Терминал',
+                'recycle': 'Корзина',
                 'notepad': 'Блокнот',
-                'browser': 'Браузер',
-                'settings': 'Настройки',
-                'games': 'Игры'
+                'terminal': 'Командная строка',
             };
             const icons = {
-                'my-pc': '💻',
-                'terminal': '⚡',
+                'my-pc': '🖥️',
+                'recycle': '🗑️',
                 'notepad': '📝',
-                'browser': '🌐',
-                'settings': '⚙️',
-                'games': '🎮'
+                'terminal': '>_',
             };
 
             const title = titles[appId] || appId;
@@ -907,15 +633,12 @@
 
             windows[appId] = true;
             focusWindow(appId);
-            playOpenSound();
             updateTaskbar();
 
-            // Setup terminal if needed
             if (appId === 'terminal') {
                 setupTerminal(appId);
             }
 
-            // Close start menu
             if (startMenuOpen) toggleStartMenu();
         }
 
@@ -926,233 +649,83 @@
             if (!input || !output) return;
 
             const commands = {
-                help: 'Доступные команды:\n  help - эта справка\n  clear - очистить\n  date - дата\n  whoami - имя пользователя\n  echo [текст] - вывести\n  neofetch - инфо\n  calc [выражение] - калькулятор\n  reboot - перезагрузка\n  cowsay [текст] - корова',
-                date: new Date().toString(),
-                whoami: 'aura-user',
-                neofetch: `
-        █████╗ ██╗   ██╗██████╗  █████╗ 
-       ██╔══██╗██║   ██║██╔══██╗██╔══██╗
-       ███████║██║   ██║██████╔╝███████║
-       ██╔══██║██║   ██║██╔══██╗██╔══██║
-       ██║  ██║╚██████╔╝██║  ██║██║  ██║
-       ╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
-              AURA OS v1.0.0
-       ────────────────────────────
-       Kernel: AuraKernel 2.4
-       Shell: aura-sh 1.0
-       RAM: ${Math.round(Math.random()*8+4)}GB / 16GB
-       CPU: AuraCore @ 3.2GHz`,
+                help: `
+        Доступные команды:
+          HELP    - эта справка
+          DIR     - список файлов
+          CLS     - очистить экран
+          VER     - версия системы
+          DATE    - текущая дата
+          TIME    - текущее время
+          EXIT    - закрыть окно`,
+                dir: `
+         Том в устройстве C: Windows
+         Серийный номер тома: A1B2-C3D4
+        
+         Содержимое папки C:\\Users\\User
+        
+         .            <DIR>         01.01.2025  12:00
+         ..           <DIR>         01.01.2025  12:00
+         DOCUMENTS    <DIR>         15.03.2025  09:30
+         DOWNLOADS    <DIR>         20.06.2025  14:15
+         README   TXT             1024  01.01.2025  12:00
+         SYSTEM   INI              512  01.01.2025  12:00
+                       2 файлов          1 536 байт
+                       4 папок    ${Math.round(Math.random()*100+50)} ГБ свободно`,
+                ver: `
+        Microsoft(R) Windows Web Edition
+        Версия 1.0.0 (сборка 2025.1)`,
+                date: new Date().toLocaleDateString('ru-RU', { weekday: 'long', year: 'numeric',
+                    month: 'long', day: 'numeric' }),
+                time: new Date().toLocaleTimeString('ru-RU'),
             };
 
             input.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter') {
-                    const cmd = input.value.trim();
-                    output.innerHTML += `\n<span style="color:var(--accent);">aura@os:~$</span> <span style="color:#fff;">${cmd}</span>`;
+                    const cmd = input.value.trim().toLowerCase();
+                    output.innerHTML +=
+                        `\nC:\\Users\\User><span style="color:#fff;">${input.value}</span>`;
 
-                    if (cmd === 'clear') {
+                    if (cmd === 'cls') {
                         output.innerHTML = '';
-                    } else if (cmd === 'reboot') {
-                        output.innerHTML +=
-                            '\n<span style="color:var(--warning);">Перезагрузка системы...</span>';
-                        setTimeout(() => {
-                            output.innerHTML +=
-                                '\n<span style="color:var(--success);">Система перезагружена!</span>';
-                        }, 800);
-                    } else if (cmd.startsWith('echo ')) {
-                        output.innerHTML += `\n${cmd.substring(5)}`;
-                    } else if (cmd.startsWith('calc ')) {
-                        try {
-                            const result = eval(cmd.substring(5));
-                            output.innerHTML += `\n<span style="color:var(--accent);">= ${result}</span>`;
-                        } catch (e) {
-                            output.innerHTML += '\n<span style="color:var(--danger);">Ошибка вычисления</span>';
-                        }
-                    } else if (cmd.startsWith('cowsay ')) {
-                        const text = cmd.substring(7);
-                        output.innerHTML +=
-                            `\n  ${'_'.repeat(text.length+2)}\n< ${text} >\n  ${'-'.repeat(text.length+2)}\n        \\   ^__^\n         \\  (oo)\\_______\n            (__)\\       )\\/\\\n                ||----w |\n                ||     ||`;
+                    } else if (cmd === 'exit') {
+                        closeWindow(appId);
                     } else if (commands[cmd]) {
                         output.innerHTML += `\n${commands[cmd]}`;
                     } else if (cmd !== '') {
                         output.innerHTML +=
-                            `\n<span style="color:var(--danger);">bash: ${cmd}: команда не найдена</span>`;
+                            `\n"${input.value}" не является внутренней или внешней\nкомандой, исполняемой программой или пакетным файлом.`;
                     }
+                    output.innerHTML += '\n\nC:\\Users\\User><span style="color:#fff;">_</span>';
                     output.scrollTop = output.scrollHeight;
                     input.value = '';
                 }
             });
-
-            output.scrollTop = output.scrollHeight;
-        }
-
-        // ===== BROWSER =====
-        function browseUrl(appId) {
-            const urlInput = document.getElementById(`browser-url-${appId}`);
-            const content = document.getElementById(`browser-content-${appId}`);
-            if (!urlInput || !content) return;
-            const url = urlInput.value.trim();
-            content.innerHTML = `
-            <div style="text-align:center; padding:30px;">
-              <p style="font-size:32px;">🌐</p>
-              <p><b>${url}</b></p>
-              <div style="background:rgba(0,0,0,0.3); border-radius:8px; padding:20px; margin-top:16px; text-align:left;">
-                <p style="color:var(--success);">✅ Страница загружена (симуляция)</p>
-                <p style="color:#999; font-size:12px;">AURA Browser — веб-браузер ОС. В реальной версии здесь был бы iframe.</p>
-                <p style="color:#999; font-size:12px;">URL: ${url}</p>
-              </div>
-            </div>`;
-            playBeep(1000, 'sine', 0.08);
-        }
-
-        // ===== SETTINGS ACTIONS =====
-        function changeWallpaper(value) {
-            const body = document.body;
-            const gradients = {
-                default: `radial-gradient(ellipse at 20% 50%, rgba(0, 212, 255, 0.05) 0%, transparent 50%),
-              radial-gradient(ellipse at 80% 20%, rgba(0, 212, 255, 0.03) 0%, transparent 50%),
-              radial-gradient(ellipse at 50% 80%, rgba(123, 0, 255, 0.04) 0%, transparent 50%)`,
-                dark: `radial-gradient(ellipse at 30% 40%, rgba(0,0,0,0.8) 0%, transparent 60%),
-              radial-gradient(ellipse at 70% 60%, rgba(20,20,20,0.6) 0%, transparent 60%)`,
-                ocean: `radial-gradient(ellipse at 30% 50%, rgba(0,100,200,0.15) 0%, transparent 50%),
-              radial-gradient(ellipse at 70% 30%, rgba(0,150,200,0.1) 0%, transparent 50%),
-              radial-gradient(ellipse at 50% 70%, rgba(0,50,150,0.1) 0%, transparent 50%)`,
-                sunset: `radial-gradient(ellipse at 80% 30%, rgba(255,150,0,0.15) 0%, transparent 50%),
-              radial-gradient(ellipse at 20% 60%, rgba(200,50,100,0.1) 0%, transparent 50%),
-              radial-gradient(ellipse at 50% 80%, rgba(255,100,0,0.08) 0%, transparent 50%)`,
-            };
-            body.style.backgroundImage = gradients[value] || gradients.default;
-            playBeep(500, 'sine', 0.05);
-        }
-
-        function changeOpacity(value) {
-            document.querySelectorAll('.window').forEach(w => {
-                w.style.backgroundColor = `rgba(22, 33, 62, ${value/100})`;
-            });
-        }
-
-        function changeTheme(value) {
-            const root = document.documentElement;
-            const themes = {
-                aura: { accent: '#00d4ff', 'accent-glow': '#00d4ff66', 'window-bg': '#16213e',
-                'window-header': '#0f3460' },
-                green: { accent: '#00ff88', 'accent-glow': '#00ff8866', 'window-bg': '#0a1a0a',
-                    'window-header': '#0a2a0a' },
-                orange: { accent: '#ffa502', 'accent-glow': '#ffa50266', 'window-bg': '#1a150a',
-                    'window-header': '#2a1a0a' },
-            };
-            const t = themes[value] || themes.aura;
-            root.style.setProperty('--accent', t.accent);
-            root.style.setProperty('--accent-glow', t['accent-glow']);
-            root.style.setProperty('--window-bg', t['window-bg']);
-            root.style.setProperty('--window-header', t['window-header']);
-            playBeep(600, 'sine', 0.06);
-        }
-
-        // ===== GAMES =====
-        function playGuessGame(appId) {
-            const area = document.getElementById(`game-area-${appId}`);
-            const secret = Math.floor(Math.random() * 100) + 1;
-            area.innerHTML = `
-            <p style="color:var(--accent);">🎯 Угадайте число от 1 до 100</p>
-            <input type="number" id="guess-input-${appId}" min="1" max="100" style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.2); color:#fff; padding:8px; border-radius:6px; width:100px; text-align:center;">
-            <button onclick="checkGuess('${appId}', ${secret})" style="background:var(--accent); color:#000; border:none; padding:8px 16px; border-radius:6px; cursor:pointer; margin-left:8px; font-weight:600;">Угадать</button>
-            <p id="guess-result-${appId}" style="margin-top:8px;"></p>`;
-            playBeep(800, 'sine', 0.08);
-        }
-
-        function checkGuess(appId, secret) {
-            const input = document.getElementById(`guess-input-${appId}`);
-            const result = document.getElementById(`guess-result-${appId}`);
-            const guess = parseInt(input.value);
-            if (isNaN(guess)) {
-                result.innerHTML = '<span style="color:var(--danger);">Введите число!</span>';
-                return;
-            }
-            if (guess === secret) {
-                result.innerHTML = '<span style="color:var(--success);">🎉 Правильно! Вы выиграли!</span>';
-                playBeep(1200, 'sine', 0.15);
-            } else if (guess < secret) {
-                result.innerHTML = '<span style="color:var(--warning);">📈 Больше!</span>';
-            } else {
-                result.innerHTML = '<span style="color:var(--warning);">📉 Меньше!</span>';
-            }
-        }
-
-        function playRPS(appId) {
-            const area = document.getElementById(`game-area-${appId}`);
-            area.innerHTML = `
-            <p style="color:var(--accent);">✂️ Камень, ножницы, бумага</p>
-            <button onclick="rpsResult('${appId}', 'rock')" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:#fff; padding:12px 20px; border-radius:8px; cursor:pointer; font-size:24px;">🪨</button>
-            <button onclick="rpsResult('${appId}', 'scissors')" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:#fff; padding:12px 20px; border-radius:8px; cursor:pointer; font-size:24px; margin:0 8px;">✂️</button>
-            <button onclick="rpsResult('${appId}', 'paper')" style="background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); color:#fff; padding:12px 20px; border-radius:8px; cursor:pointer; font-size:24px;">📄</button>
-            <p id="rps-result-${appId}" style="margin-top:12px;"></p>`;
-        }
-
-        function rpsResult(appId, player) {
-            const choices = ['rock', 'scissors', 'paper'];
-            const emojis = { rock: '🪨', scissors: '✂️', paper: '📄' };
-            const bot = choices[Math.floor(Math.random() * 3)];
-            const resultEl = document.getElementById(`rps-result-${appId}`);
-            let result = '';
-            if (player === bot) result = 'Ничья! 🤝';
-            else if ((player === 'rock' && bot === 'scissors') ||
-                (player === 'scissors' && bot === 'paper') ||
-                (player === 'paper' && bot === 'rock')) {
-                result = 'Вы выиграли! 🎉';
-                playBeep(1100, 'sine', 0.12);
-            } else {
-                result = 'Бот выиграл! 🤖';
-                playBeep(300, 'square', 0.15);
-            }
-            resultEl.innerHTML =
-                `Вы: ${emojis[player]}  vs  Бот: ${emojis[bot]}<br><b>${result}</b>`;
         }
 
         // ===== SHUTDOWN =====
         function shutdown() {
-            playCloseSound();
-            document.querySelectorAll('.window').forEach(w => {
-                w.style.opacity = '0';
-                w.style.transform = 'scale(0.9)';
-                w.style.transition = 'all 0.3s ease-in';
-            });
-            setTimeout(() => {
-                document.body.innerHTML = `
-              <div style="display:flex; align-items:center; justify-content:center; height:100vh; flex-direction:column;">
-                <p style="font-size:64px;">⏻</p>
-                <h2 style="color:var(--accent);">AURA OS выключена</h2>
-                <p style="color:#999;">Обновите страницу для перезапуска</p>
-                <button onclick="location.reload()" style="margin-top:20px; background:var(--accent); color:#000; border:none; padding:12px 28px; border-radius:10px; cursor:pointer; font-weight:600; font-size:16px;">
-                  🔄 Перезапустить
-                </button>
-              </div>`;
-            }, 350);
+            document.body.innerHTML = `
+            <div style="background:#008080; display:flex; align-items:center; justify-content:center; height:100vh; flex-direction:column; color:#fff; font-family:'MS Sans Serif',sans-serif;">
+              <div style="background:#c0c0c0; box-shadow:inset -1px -1px 0 #404040, inset 1px 1px 0 #dfdfdf; padding: 30px; text-align:center; color:#000;">
+                <p style="font-size:18px; margin-bottom:10px;">⏻</p>
+                <p style="font-weight:bold;">Завершение работы Windows</p>
+                <p style="font-size:11px; color:#666; margin-top:8px;">Теперь питание компьютера можно отключить.</p>
+                <button class="win95-btn" style="margin-top:16px;" onclick="location.reload()">Перезапустить</button>
+              </div>
+            </div>`;
         }
 
-        // ===== KEYBOARD SHORTCUTS =====
+        // ===== KEYBOARD =====
         document.addEventListener('keydown', function(e) {
-            // Alt+1..6 to open apps
-            if (e.altKey && e.key >= '1' && e.key <= '6') {
-                const apps = ['my-pc', 'terminal', 'notepad', 'browser', 'settings', 'games'];
-                openApp(apps[parseInt(e.key) - 1]);
-            }
-            // Escape to close focused window
             if (e.key === 'Escape' && activeWindowId) {
                 closeWindow(activeWindowId);
             }
         });
 
-        // ===== INITIAL MESSAGE =====
-        console.log('%c🚀 AURA OS %cv1.0.0 %cзагружена!',
-            'font-size:20px; color:#00d4ff;', 'color:#ccc;', 'color:#999;');
-        console.log('%cДважды кликните по иконкам на рабочем столе.', 'color:#999; font-style:italic;');
-        console.log('%cГорячие клавиши: Alt+1-6 для открытия приложений, Esc для закрытия.',
-            'color:#999;');
-
-        // Open My PC on first load
-        setTimeout(() => {
-            openApp('my-pc');
-        }, 400);
+        // ===== INITIAL =====
+        console.log('Windows Web Edition v1.0.0');
+        console.log('Дважды кликните по иконкам на рабочем столе.');
     </script>
 </body>
 </html>
